@@ -1,0 +1,16 @@
+﻿<Prefab>
+    <Constants>
+    </Constants>
+    <VisualDefinitions>
+    </VisualDefinitions>
+
+
+    <Window>
+        <Widget HeightSizePolicy="Fixed" WidthSizePolicy="Fixed" SuggestedWidth="500" SuggestedHeight="500"
+                HorizontalAlignment="Right" VerticalAlignment="Top" UpdateChildrenStates="true">
+            <Children>
+                <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Text="TemplatePerks"/>
+            </Children>
+        </Widget>
+    </Window>
+</Prefab>

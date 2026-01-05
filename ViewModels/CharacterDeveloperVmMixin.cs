@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
-using AutoAssignCharacterSheetWithTemplate._Module.GUI.Prefabs.TemplateScreens.State;
+﻿using AutoAssignCharacterSheetWithTemplate.State;
 using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.ViewModels;
 using TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 

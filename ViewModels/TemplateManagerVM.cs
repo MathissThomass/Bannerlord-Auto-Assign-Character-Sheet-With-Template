@@ -1,8 +1,7 @@
 ﻿using System;
-using AutoAssignCharacterSheetWithTemplate._Module.GUI.Prefabs.TemplateScreens.State;
+using AutoAssignCharacterSheetWithTemplate.State;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
-using TaleWorlds.ScreenSystem;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -61,14 +60,7 @@ public class TemplateManagerVM : ViewModel
 
     private void Close()
     {
-        try
-        {
-            GameStateManager.Current.PopState();
-        }
-        catch (Exception ex)
-        {
-            InformationManager.DisplayMessage(new InformationMessage("Close error: " + ex.Message));
-        }
+        GameStateManager.Current.PopState();
     }
 
     private void RefreshValues()

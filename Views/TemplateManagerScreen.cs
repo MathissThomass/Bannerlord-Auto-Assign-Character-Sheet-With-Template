@@ -1,17 +1,11 @@
-﻿using System;
-using System.IO;
-using AutoAssignCharacterSheetWithTemplate._Module.GUI.Prefabs.TemplateScreens.State;
+﻿using AutoAssignCharacterSheetWithTemplate.State;
 using AutoAssignCharacterSheetWithTemplate.ViewModels;
 using TaleWorlds.Core;
-using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
-using TaleWorlds.TwoDimension;
-using Path = System.IO.Path;
-
 
 namespace AutoAssignCharacterSheetWithTemplate.Views;
 
@@ -39,12 +33,12 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     protected override void OnFrameTick(float dt)
     {
         base.OnFrameTick(dt);
-        if (_layer.Input.IsKeyPressed(InputKey.Escape))
+        if (Input.IsKeyReleased(InputKey.Escape))
         {
             _dataSource.ExecuteCancel();
         }
 
-        if (_layer.Input.IsKeyPressed(InputKey.Enter))
+        if (TaleWorlds.InputSystem.Input.IsKeyReleased(InputKey.Enter))
         {
             _dataSource.ExecuteDone();
         }
