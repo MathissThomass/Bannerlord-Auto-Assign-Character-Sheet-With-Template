@@ -1,0 +1,11 @@
+﻿<Prefab>
+    <Constants>
+    </Constants>
+    <VisualDefinitions>
+    </VisualDefinitions>
+
+    
+    <Window>
+        <TextWidget widthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" VerticalAlignement="Center" Text="Hello" />
+    </Window>
+</Prefab>
