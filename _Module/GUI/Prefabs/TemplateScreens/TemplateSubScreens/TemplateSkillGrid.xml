@@ -6,9 +6,15 @@
 
 
     <Window>
-        <Widget HeightSizePolicy="CoverChildren" WidthSizePolicy="Fixed" SuggestedWidth="500" HorizontalAlignment="Right" UpdateChildrenStates="true">
+        <Widget HeightSizePolicy="CoverChildren" WidthSizePolicy="CoverChildren" HorizontalAlignment="Right" VerticalAlignment="Bottom" UpdateChildrenStates="true" MarginRight="8">
             <Children>
-                <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Text="TemplateSkillGridOverview"/>
+
+                <GridWidget DataSource="{SkillsVM}" WidthSizePolicy="CoverChildren" MarginTop="8"  HeightSizePolicy="CoverChildren" DefaultCellWidth="178" DefaultCellHeight="138" ColumnCount="7" MarginLeft="11.558">
+                    <ItemTemplate>
+                        <TemplateSkillGridItem VerticalAlignment="Top" HorizontaAlignment="Center" Parameter.HasExtraSkills="true"/>
+                    </ItemTemplate>
+                </GridWidget>
+
             </Children>
         </Widget>
     </Window>

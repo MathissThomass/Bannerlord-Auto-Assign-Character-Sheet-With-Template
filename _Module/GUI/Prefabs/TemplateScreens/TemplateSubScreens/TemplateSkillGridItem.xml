@@ -1,0 +1,34 @@
+﻿<Prefab>
+    <Parameters>
+        <Parameter Name="HasExtraSkills" DefaultValue="false"/>
+    </Parameters>
+    <Constants>
+        <Constant Name="CharacterDeveloper.SkillButtonBackground.Width" BrushLayer="Default" BrushName="CharacterDeveloper.SkillButtonBackground" BrushValueType="Width"/>
+        <Constant Name="CharacterDeveloper.SkillButtonBackground.Height" BooleanCheck="*HasExtraSkills" OnTrue="!CharacterDeveloper.SkillButtonBackground.Height.Small" OnFalse="!CharacterDeveloper.SkillButtonBackground.Height.Default"/>
+        <Constant Name="CharacterDeveloper.SkillButtonBackground.Height.Default" BrushLayer="Default" BrushName="CharacterDeveloper.SkillButtonBackground" BrushValueType="Height"/>
+        <Constant Name="CharacterDeveloper.SkillButtonBackground.Height.Small" BrushLayer="Default" BrushName="CharacterDeveloper.SkillButtonBackground" BrushValueType="Height" MultiplyResult="0.857"/>
+        <Constant Name="NameText.Height" BooleanCheck="*HasExtraSkills" OnTrue="24" OnFalse="30"/>
+        <Constant Name="SkillIcon.Size" BooleanCheck="*HasExtraSkills" OnTrue="65" OnFalse="76"/>
+        <Constant Name="SkillIconShadow.Width" BooleanCheck="*HasExtraSkills" OnTrue="78" OnFalse="92"/>
+        <Constant Name="SkillIconShadow.Height" BooleanCheck="*HasExtraSkills" OnTrue="80" OnFalse="94"/>
+        <Constant Name="SkillIconShadow.MarginLeft" BooleanCheck="*HasExtraSkills" OnTrue="5" OnFalse="0"/>
+    </Constants>
+    <Window>
+        <SkillGridItemButtonWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!CharacterDeveloper.SkillButtonBackground.Width" SuggestedHeight="!CharacterDeveloper.SkillButtonBackground.Height" VerticalAlignment="Top" CanLearnBrush="CharacterDeveloper.SkillButtonBackground" CannotLearnBrush="CharacterDeveloper.SkillButtonBackground.CannotLearn" Command.Click="ExecuteInspect" IsSelected="@IsInspected" Command.AlternateClick="ExecuteShowSkillConcept" CanLearnSkill="@CanLearnSkill">
+            <Children>
+                <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!NameText.Height" VerticalAlignment="Top" MarginLeft="10" Brush="CharacterDeveloper.GridSkillName.Text" IsEnabled="@CanLearnSkill" Text="@NameText" DoNotAcceptEvents="true"/>
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!SkillIconShadow.Width" SuggestedHeight="!SkillIconShadow.Height" HorizontalAlignment="Left" MarginLeft="!SkillIconShadow.MarginLeft" MarginTop="28" Sprite="CharacterDeveloper\skills_icon_shadow" IsDisabled="true">
+                    <Children>
+                        <SkillIconVisualWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!SkillIcon.Size" SuggestedHeight="!SkillIcon.Size" HorizontalAlignment="Center" VerticalAlignment="Center" SkillId="@SkillId" UseSmallVariation="true"/>
+                    </Children>
+                </Widget>
+                <ValueBasedVisibilityWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="33" SuggestedHeight="36" IndexToBeVisible="0" WatchType="BiggerThan" IndexToWatch="@NumOfUnopenedPerks" HorizontalAlignment="Right" VerticalAlignment="Top" PositionYOffset="-4" IsEnabled="false">
+                    <Children>
+                        <BrushWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="CharacterDeveloper.PerkNotificationBrush"/>
+                        <TextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Center" Brush.FontSize="18" IntText="@NumOfUnopenedPerks" ClipContents="false"/>
+                    </Children>
+                </ValueBasedVisibilityWidget>
+            </Children>
+        </SkillGridItemButtonWidget>
+    </Window>
+</Prefab>

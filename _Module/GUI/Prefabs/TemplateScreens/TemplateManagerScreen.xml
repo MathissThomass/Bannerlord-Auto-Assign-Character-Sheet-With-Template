@@ -2,11 +2,15 @@
     <Constants>
     </Constants>
     <VisualDefinitions>
+        <VisualDefinition Name="BottomMenu" DelayOnBegin="0.2" TransitionDuration="0.4">
+            <VisualState PositionYOffset="0" State="Default"/>
+        </VisualDefinition>
     </VisualDefinitions>
 
 
     <Window>
-        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
             <Children>
                 <Standard.Background/>
                 <!--Top title-->
@@ -19,22 +23,20 @@
                     </Children>
                 </Widget>
 
-                <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
-                        HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="100">
-                    <Children>
-                        <TemplateList HorizontalAlignment="Left"/>
-                        <TemplatePerks HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                        <TemplateSkillGrid HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                        <Standard.TripleDialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center"
-                                                           VerticalAlignment="Bottom" PositionYOffset="100"
-                                                           Parameter.CancelButtonAction="ExecuteCancel"
-                                                           Parameter.CancelButtonText="@CancelLbl"
-                                                           Parameter.DoneButtonAction="ExecuteDone"
-                                                           Parameter.DoneButtonText="@DoneLbl"
-                                                           Parameter.ResetButtonAction="ExecuteReset"
-                                                           Parameter.ResetButtonHintDataSource="{ResetHint}"/>
-                    </Children>
-                </Widget>
+                <TemplateList HorizontalAlignment="Left"/>
+                <TemplatePerks HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TemplateSkillGrid DataSource="{TemplateSkillGridVM}" HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom" MarginBottom="30"/>
+
+                <Standard.TripleDialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center"
+                                                   VerticalAlignment="Bottom" PositionYOffset="100"
+                                                   Parameter.CancelButtonAction="ExecuteCancel"
+                                                   Parameter.CancelButtonText="@CancelLbl"
+                                                   Parameter.DoneButtonAction="ExecuteDone"
+                                                   Parameter.DoneButtonText="@DoneLbl"
+                                                   Parameter.ResetButtonAction="ExecuteReset"
+                                                   Parameter.ResetButtonHintDataSource="{ResetHint}"/>
+
 
             </Children>
         </Widget>
