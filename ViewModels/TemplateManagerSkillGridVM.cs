@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -40,7 +39,7 @@ public class TemplateManagerSkillGridVM : ViewModel
     }
 
     [DataSourceProperty]
-    public TemplateManagerSkillVM CurrentSkillView
+    public TemplateManagerSkillVM CurrentSkill
     {
         get
         {
@@ -51,7 +50,7 @@ public class TemplateManagerSkillGridVM : ViewModel
             if (value != _currentSkillVM)
             {
                 _currentSkillVM = value;
-                OnPropertyChangedWithValue(value, "CurrentSkillView");
+                OnPropertyChangedWithValue(value, "CurrentSkill");
             }
         }
     }
@@ -66,7 +65,7 @@ public class TemplateManagerSkillGridVM : ViewModel
         }
         SkillsVM[0].IsInspected = true;
         _currentSkillVM = SkillsVM[0];
-        OnPropertyChanged("CurrentSkillView");
+        OnPropertyChanged("CurrentSkill");
     }
     
     public void OnSkillSelectedChange(TemplateManagerSkillVM templateManagerSkillVM)
@@ -75,6 +74,6 @@ public class TemplateManagerSkillGridVM : ViewModel
         {
             _currentSkillVM.IsInspected = false;
         }
-        CurrentSkillView = templateManagerSkillVM;
+        CurrentSkill = templateManagerSkillVM;
     }
 }

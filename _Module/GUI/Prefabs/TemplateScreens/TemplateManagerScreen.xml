@@ -24,9 +24,7 @@
                 </Widget>
 
                 <TemplateList HorizontalAlignment="Left"/>
-                <TemplatePerks HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <TemplateSkillGrid DataSource="{TemplateSkillGridVM}" HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom" MarginBottom="30"/>
+                <TemplateSkillGrid DataSource="{TemplateSkillGridVM}" HorizontalAlignment="Right" VerticalAlignment="Stretch" MarginBottom="30"/>
 
                 <Standard.TripleDialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center"
                                                    VerticalAlignment="Bottom" PositionYOffset="100"

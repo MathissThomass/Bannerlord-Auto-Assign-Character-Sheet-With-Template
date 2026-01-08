@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
@@ -28,7 +27,7 @@ public class TemplateManagerPerkVM : ViewModel
         FirstAlternative,
         SecondAlternative
     }
-    
+
     public readonly PerkObject Perk;
 
     private readonly Concept? _perkConceptObj;
@@ -53,6 +52,39 @@ public class TemplateManagerPerkVM : ViewModel
 
     Action<PerkObject, bool> _onPerkSelectedChange;
     
+    private readonly Func<PerkObject, bool> _getIsPerkSelected;
+
+    public TemplateManagerPerkVM(PerkObject perk, PerkAlternativeType alternativeType, Func<PerkObject, bool> getIsPerkSelected,
+        Action<PerkObject, bool> onPerkSelectedChange)
+    {
+        AlternativeType = (int)alternativeType;
+        Perk = perk;
+        _onPerkSelectedChange = onPerkSelectedChange;
+        PerkId = "SPPerks\\" + perk.StringId;
+        Level = (int)perk.RequiredSkillValue;
+        LevelText = ((int)perk.RequiredSkillValue).ToString();
+        Hint = new BasicTooltipViewModel(() => CampaignUIHelper.GetPerkEffectText(perk, true));
+        _perkConceptObj = Concept.All.SingleOrDefault(c => c.StringId == "str_game_objects_perks");
+        _getIsPerkSelected =  getIsPerkSelected;
+        RefreshState();
+    }
+    
+    public void RefreshState()
+    {
+        bool isSelected = _getIsPerkSelected(Perk);
+        if (isSelected)
+        {
+            CurrentState = PerkStates.EarnedAndActive;
+            return;
+        }
+        if (Perk.AlternativePerk != null && _getIsPerkSelected(Perk.AlternativePerk))
+        {
+            CurrentState = PerkStates.EarnedAndNotActive;
+            return;
+        }
+        CurrentState = PerkStates.EarnedButNotSelected;
+    }
+
     public PerkStates CurrentState
     {
         get { return _currentState; }
@@ -63,6 +95,14 @@ public class TemplateManagerPerkVM : ViewModel
                 _currentState = value;
                 PerkState = (int)value;
             }
+        }
+    }
+    
+    private bool _hasAlternativeAndSelected
+    {
+        get
+        {
+            return AlternativeType != 0 && _getIsPerkSelected(Perk.AlternativePerk);
         }
     }
 
@@ -178,27 +218,6 @@ public class TemplateManagerPerkVM : ViewModel
         }
     }
 
-    public TemplateManagerPerkVM(PerkObject perk, bool isSelected, PerkAlternativeType alternativeType,
-        Action<PerkObject, bool> onPerkSelectedChange)
-    {
-        AlternativeType = (int)alternativeType;
-        Perk = perk;
-        _onPerkSelectedChange = onPerkSelectedChange;
-        PerkId = "SPPerks\\" + perk.StringId;
-        Level = (int)perk.RequiredSkillValue;
-        LevelText = ((int)perk.RequiredSkillValue).ToString();
-        Hint = new BasicTooltipViewModel(() => CampaignUIHelper.GetPerkEffectText(perk, true));
-        _perkConceptObj = Concept.All.SingleOrDefault(c => c.StringId == "str_game_objects_perks");
-        if (isSelected)
-        {
-            CurrentState = PerkStates.EarnedAndActive;
-        }
-        else
-        {
-            CurrentState = PerkStates.EarnedButNotSelected;
-        }
-
-    }
 
     private void ExecuteShowPerkConcept()
     {
@@ -210,15 +229,11 @@ public class TemplateManagerPerkVM : ViewModel
 
     private void ExecuteStartSelection()
     {
-        if (CurrentState != PerkStates.EarnedAndActive)
+        if (_onPerkSelectedChange != null && !_hasAlternativeAndSelected)
         {
-            CurrentState = PerkStates.EarnedAndActive;
-            if (_onPerkSelectedChange != null) _onPerkSelectedChange(Perk, true);
-        }
-        else
-        {
-            CurrentState = PerkStates.EarnedButNotSelected;
-            if (_onPerkSelectedChange != null) _onPerkSelectedChange(Perk, false);
+            bool currentlySelected = _getIsPerkSelected(Perk);
+            _onPerkSelectedChange(Perk, !currentlySelected);
+            RefreshState();
         }
     }
 }

@@ -1,7 +1,5 @@
-﻿using System;
-using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.State;
-using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
