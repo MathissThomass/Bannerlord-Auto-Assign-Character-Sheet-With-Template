@@ -48,8 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behavior\" />
-    <Folder Include="Services\" />
+    <Folder Include="Behaviors\" />
     <Folder Include="_Module\GUI\Brushes\" />
   </ItemGroup>
   

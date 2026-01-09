@@ -83,6 +83,14 @@ public class TemplateManagerCharacter
         }
     }
 
+    public void ClearAllPerks()
+    {
+        foreach (TemplateManagerCharacterPerk perk in PerkList)
+        {
+            perk.Enable = false;
+        }
+    }
+
     public void SetPerkValue(PerkObject perk, bool enable)
     {
         TemplateManagerCharacterPerk? result = PerkList.FirstOrDefault(cp => cp.StringId.Equals(perk.StringId));

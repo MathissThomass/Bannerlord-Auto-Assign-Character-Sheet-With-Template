@@ -9,15 +9,74 @@
         <Widget HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
             <Children>
+
+                <!-- Perk Bar -->
                 <Widget HeightSizePolicy="CoverChildren" WidthSizePolicy="CoverChildren" HorizontalAlignment="Right"
-                        VerticalAlignment="Top" MarginTop="50" UpdateChildrenStates="true" MarginRight="8">
+                        VerticalAlignment="Top" MarginTop="70" UpdateChildrenStates="true" MarginRight="8">
                     <Children>
-                        <TemplatePerks />
+                        <TemplatePerks/>
                     </Children>
                 </Widget>
 
+                <!-- Button line to clear perks / chose important Skill / Save -->
+                <ListPanel HeightSizePolicy="CoverChildren" WidthSizePolicy="CoverChildren" HorizontalAlignment="Right"
+                           VerticalAlignment="Center" StackLayout.LayoutMethod="HorizontalRightToLeft"
+                           UpdateChildrenStates="true" MarginRight="150">
+                    <Children>
+
+                        <ButtonWidget Id="SaveTemplate" DoNotPassEventsToChildren="true"
+                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                      SuggestedWidth="180" SuggestedHeight="40"
+                                      Brush="ButtonBrush2" MarginLeft="50"
+                                      Command.Click="ExecuteSaveTemplate">
+                            <Children>
+                                <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
+                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20" Text="Save"/>
+                            </Children>
+                        </ButtonWidget>
+
+                        <ButtonWidget Id="ImportantSkillToggle" DoNotPassEventsToChildren="true"
+                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                      SuggestedWidth="180" SuggestedHeight="40"
+                                      Brush="ButtonBrush2" MarginLeft="50"
+                                      Command.Click="ExecuteImportantSkillToggle">
+                            <Children>
+                                <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
+                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                Text="Important skill"/>
+                            </Children>
+                        </ButtonWidget>
+
+                        <ButtonWidget Id="ClearAllPerks" DoNotPassEventsToChildren="true"
+                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                      SuggestedWidth="180" SuggestedHeight="40"
+                                      Brush="ButtonBrush2" MarginLeft="50"
+                                      Command.Click="ExecuteClearAllPerks">
+                            <Children>
+                                <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
+                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                Text="Clear all perks"/>
+                            </Children>
+                        </ButtonWidget>
+
+                        <ButtonWidget Id="ClearSkillPerks" DoNotPassEventsToChildren="true"
+                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                      SuggestedWidth="180" SuggestedHeight="40"
+                                      Brush="ButtonBrush2" MarginLeft="50"
+                                      Command.Click="ExecuteClearSkillPerks">
+                            <Children>
+                                <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
+                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                Text="Clear skill perks"/>
+                            </Children>
+                        </ButtonWidget>
+
+                    </Children>
+                </ListPanel>
+
+                <!-- Skill grid -->
                 <Widget HeightSizePolicy="CoverChildren" WidthSizePolicy="CoverChildren" HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom" UpdateChildrenStates="true" MarginRight="8">
+                        VerticalAlignment="Bottom" UpdateChildrenStates="true" MarginRight="8" MarginBottom="10">
                     <Children>
 
                         <GridWidget DataSource="{SkillsVM}" WidthSizePolicy="CoverChildren" MarginTop="8"

@@ -375,7 +375,6 @@
                 SuggestedHeight="40"
                 HorizontalAlignment="Right"
                 Brush="ButtonBrush1"
-                IsSelected="@IsSelected"
                 Command.Click="ExecuteOpenTemplateManager">
           <Children>
             <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="OverlayPopup.ButtonText" Brush.FontSize="20" Text="Templates"/>

@@ -241,6 +241,14 @@ public class TemplateManagerSkillVM : ViewModel
         }
     }
 
+    public void RefreshSkillPerksState()
+    {
+        foreach (var perkVM in Perks)
+        {
+            perkVM.RefreshState();
+        }
+    }
+
     private bool IsPerkSelected(PerkObject perk)
     {
         return _template.GetPerkValue(perk);

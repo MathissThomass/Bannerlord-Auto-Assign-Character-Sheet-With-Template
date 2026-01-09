@@ -54,6 +54,32 @@ public class TemplateManagerSkillGridVM : ViewModel
             }
         }
     }
+
+    private void ExecuteClearSkillPerks()
+    {
+        _templateCharacter.ClearPerkSkill(_currentSkillVM.Skill);
+        _currentSkillVM.RefreshSkillPerksState();
+    }
+
+    private void ExecuteClearAllPerks()
+    {
+        _templateCharacter.ClearAllPerks();
+        foreach (var skillsVM in _skillsVM)
+        {
+            skillsVM.RefreshSkillPerksState();
+        }
+    }
+
+    private void ExecuteImportantSkillToggle()
+    {
+        
+    }
+
+    private void ExecuteSaveTemplate()
+    {
+        
+    }
+    
     
     private void RefreshHeroSkills()
     {
