@@ -24,7 +24,7 @@ public class TemplateManagerCharacter
     }
 
 
-    public void SetSkillImportantSkill(SkillObject skill, bool isImportant)
+    public void SetImportantSkill(SkillObject skill, bool isImportant)
     {
         TemplateManagerCharacterSkill? result = SkillList.FirstOrDefault((obj) => obj.StringId.Equals(skill.StringId));
         if (result != null)
@@ -33,7 +33,7 @@ public class TemplateManagerCharacter
         }
     }
 
-    public bool GetSkillImportantSkill(SkillObject skill)
+    public bool GetImportantSkill(SkillObject skill)
     {
         TemplateManagerCharacterSkill? result = SkillList.FirstOrDefault((obj) => obj.StringId.Equals(skill.StringId));
         if (result != null)

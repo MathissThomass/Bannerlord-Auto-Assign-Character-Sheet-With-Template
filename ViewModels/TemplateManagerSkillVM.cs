@@ -20,14 +20,16 @@ public class TemplateManagerSkillVM : ViewModel
     private bool _canLearnSkill;
     private int _level;
     private int _maxLevel;
+    private bool _isImportantSkill;
     Action<TemplateManagerSkillVM> onSkillSelection;
 
 
-    public TemplateManagerSkillVM(SkillObject skillObject, TemplateManagerCharacter template,
-        Action<TemplateManagerSkillVM> onSkillSelection)
+    public TemplateManagerSkillVM(SkillObject skillObject, TemplateManagerCharacter template, bool isImportantSkill,
+        Action<TemplateManagerSkillVM> onSkillSelection) 
     {
         _perks = new MBBindingList<TemplateManagerPerkVM>();
         _skillObject = skillObject;
+        _isImportantSkill = isImportantSkill;
         SkillId = skillObject.StringId;
         NameText = skillObject.Name.ToString();
         FillHeroData(template);
@@ -47,6 +49,7 @@ public class TemplateManagerSkillVM : ViewModel
         _fullLearningRateLevel = 330;
         Level = 330;
         MaxLevel = 330;
+        IsImportantSkill = _isImportantSkill;
 
         RefreshPerks();
     }
@@ -174,6 +177,21 @@ public class TemplateManagerSkillVM : ViewModel
             {
                 _maxLevel = value;
                 OnPropertyChangedWithValue(value, "MaxLevel");
+            }
+        }
+    }
+
+    [DataSourceProperty]
+    public bool IsImportantSkill
+    {
+        get { return _isImportantSkill; }
+        set
+        {
+            if (value != _isImportantSkill)
+            {
+                _isImportantSkill = value;
+                OnPropertyChangedWithValue(value, "IsImportantSkill");
+
             }
         }
     }

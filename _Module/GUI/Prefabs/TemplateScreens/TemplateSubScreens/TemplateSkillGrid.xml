@@ -38,7 +38,7 @@
                         <ButtonWidget Id="ImportantSkillToggle" DoNotPassEventsToChildren="true"
                                       WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
                                       SuggestedWidth="180" SuggestedHeight="40"
-                                      Brush="ButtonBrush2" MarginLeft="50"
+                                      Brush="@IsImportantButtonBrushStringId" MarginLeft="50"
                                       Command.Click="ExecuteImportantSkillToggle">
                             <Children>
                                 <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
