@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoAssignCharacterSheetWithTemplate.Models;
+using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -21,6 +22,7 @@ public class TemplateManagerSkillVM : ViewModel
     private int _level;
     private int _maxLevel;
     private bool _isImportantSkill;
+    private int _numOfUnopenedPerks;
     Action<TemplateManagerSkillVM> onSkillSelection;
 
 
@@ -34,6 +36,7 @@ public class TemplateManagerSkillVM : ViewModel
         NameText = skillObject.Name.ToString();
         FillHeroData(template);
         this.onSkillSelection = onSkillSelection;
+        RefreshNumOfUnopenedPerks();
     }
 
     public SkillObject Skill
@@ -195,6 +198,23 @@ public class TemplateManagerSkillVM : ViewModel
             }
         }
     }
+    
+    [DataSourceProperty]
+    public int NumOfUnopenedPerks
+    {
+        get
+        {
+            return _numOfUnopenedPerks;
+        }
+        set
+        {
+            if (value != _numOfUnopenedPerks)
+            {
+                _numOfUnopenedPerks = value;
+                OnPropertyChangedWithValue(value, "NumOfUnopenedPerks");
+            }
+        }
+    }
 
     private void ExecuteInspect()
     {
@@ -237,14 +257,29 @@ public class TemplateManagerSkillVM : ViewModel
             }
         }
     }
+    
+    private void RefreshNumOfUnopenedPerks()
+    {
+        int num = 0;
+        foreach (var perkVM in Perks)
+        {
+            if (perkVM.CurrentState == TemplateManagerPerkVM.PerkStates.EarnedButNotSelected && (perkVM.AlternativeType == 1 || perkVM.AlternativeType == 0))
+            {
+                num++;
+            }
+        }
+        NumOfUnopenedPerks = num;
+    }
 
-    private void OnPerkSelectedChange(PerkObject perk, bool selected)
+    private void OnPerkSelectedChange(PerkObject perk, bool selected, TemplateManagerPerkVM perkVM)
     {
         _template.SetPerkValue(perk, selected);
         if (perk.AlternativePerk != null)
         {
             RefreshAlternativePerkState(perk.StringId);
         }
+        perkVM.RefreshState();
+        RefreshNumOfUnopenedPerks();
     }
 
     private void RefreshAlternativePerkState(string perkStringId)
@@ -265,6 +300,7 @@ public class TemplateManagerSkillVM : ViewModel
         {
             perkVM.RefreshState();
         }
+        RefreshNumOfUnopenedPerks();
     }
 
     private bool IsPerkSelected(PerkObject perk)

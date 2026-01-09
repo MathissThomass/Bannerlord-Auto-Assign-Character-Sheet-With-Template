@@ -50,12 +50,12 @@ public class TemplateManagerPerkVM : ViewModel
 
     private bool _isTutorialHighlightEnabled;
 
-    Action<PerkObject, bool> _onPerkSelectedChange;
+    Action<PerkObject, bool, TemplateManagerPerkVM> _onPerkSelectedChange;
     
     private readonly Func<PerkObject, bool> _getIsPerkSelected;
 
     public TemplateManagerPerkVM(PerkObject perk, PerkAlternativeType alternativeType, Func<PerkObject, bool> getIsPerkSelected,
-        Action<PerkObject, bool> onPerkSelectedChange)
+        Action<PerkObject, bool, TemplateManagerPerkVM> onPerkSelectedChange)
     {
         AlternativeType = (int)alternativeType;
         Perk = perk;
@@ -232,8 +232,7 @@ public class TemplateManagerPerkVM : ViewModel
         if (_onPerkSelectedChange != null && !_hasAlternativeAndSelected)
         {
             bool currentlySelected = _getIsPerkSelected(Perk);
-            _onPerkSelectedChange(Perk, !currentlySelected);
-            RefreshState();
+            _onPerkSelectedChange(Perk, !currentlySelected, this);
         }
     }
 }
