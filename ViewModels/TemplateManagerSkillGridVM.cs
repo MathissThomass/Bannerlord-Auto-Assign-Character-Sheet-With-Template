@@ -1,7 +1,13 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using System;
+using System.Text.RegularExpressions;
+using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
+using Newtonsoft.Json;
 using TaleWorlds.Core;
+using TaleWorlds.Engine;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
+using Path = System.IO.Path;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -10,12 +16,12 @@ public class TemplateManagerSkillGridVM : ViewModel
     MBBindingList<TemplateManagerSkillVM> _skillsVM;
 
     private TemplateManagerCharacter _templateCharacter;
-    
+
     private TemplateManagerSkillVM _currentSkillVM;
 
     private bool _isImportantSkillToggleOn;
-    
-    public TemplateManagerSkillGridVM(TemplateManagerCharacter templateCharacter )
+
+    public TemplateManagerSkillGridVM(TemplateManagerCharacter templateCharacter)
     {
         _templateCharacter = templateCharacter;
         _skillsVM = new MBBindingList<TemplateManagerSkillVM>();
@@ -25,10 +31,7 @@ public class TemplateManagerSkillGridVM : ViewModel
     [DataSourceProperty]
     public MBBindingList<TemplateManagerSkillVM> SkillsVM
     {
-        get
-        {
-            return _skillsVM;
-        }
+        get { return _skillsVM; }
         set
         {
             if (value != _skillsVM)
@@ -42,10 +45,7 @@ public class TemplateManagerSkillGridVM : ViewModel
     [DataSourceProperty]
     public TemplateManagerSkillVM CurrentSkill
     {
-        get
-        {
-            return _currentSkillVM;
-        }
+        get { return _currentSkillVM; }
         set
         {
             if (value != _currentSkillVM)
@@ -59,10 +59,7 @@ public class TemplateManagerSkillGridVM : ViewModel
     [DataSourceProperty]
     public string IsImportantButtonBrushStringId
     {
-        get
-        {
-            return _isImportantSkillToggleOn ? "ButtonBrush1" : "ButtonBrush2";
-        }
+        get { return _isImportantSkillToggleOn ? "ButtonBrush1" : "ButtonBrush2"; }
     }
 
     private void ExecuteClearSkillPerks()
@@ -88,23 +85,36 @@ public class TemplateManagerSkillGridVM : ViewModel
 
     private void ExecuteSaveTemplate()
     {
-        
+        InformationManager.ShowTextInquiry(new TextInquiryData(new TextObject("Enter the template name").ToString(),
+            new TextObject("Can only save up to 15").ToString(),
+            true, true, GameTexts.FindText("str_done", null).ToString(),
+            GameTexts.FindText("str_cancel", null).ToString(), OnEnterNameAfter, InformationManager.HideInquiry,
+            false));
     }
-    
-    
+
+    private void OnEnterNameAfter(string saveName)
+    {
+        _templateCharacter.Name = saveName;
+        var data = TemplateCharacterDto.FromModel(_templateCharacter);
+        TemplateSaveManager.SaveTemplate(data);
+    }
+
+
     private void RefreshHeroSkills()
     {
         SkillsVM.Clear();
         var skillObjectList = CharacterUtils.GetSkillsWithWarSails();
         foreach (SkillObject current in skillObjectList)
         {
-            SkillsVM.Add(new TemplateManagerSkillVM(current, _templateCharacter, _templateCharacter.GetImportantSkill(current), OnSkillSelectedChange));
+            SkillsVM.Add(new TemplateManagerSkillVM(current, _templateCharacter,
+                _templateCharacter.GetImportantSkill(current), OnSkillSelectedChange));
         }
+
         SkillsVM[0].IsInspected = true;
         _currentSkillVM = SkillsVM[0];
         OnPropertyChanged("CurrentSkill");
     }
-    
+
     public void OnSkillSelectedChange(TemplateManagerSkillVM templateManagerSkillVM)
     {
         if (templateManagerSkillVM != _currentSkillVM)
@@ -112,7 +122,7 @@ public class TemplateManagerSkillGridVM : ViewModel
             _currentSkillVM.IsInspected = false;
             CurrentSkill = templateManagerSkillVM;
         }
-        
+
         if (_isImportantSkillToggleOn)
         {
             _currentSkillVM.IsImportantSkill = !_currentSkillVM.IsImportantSkill;
