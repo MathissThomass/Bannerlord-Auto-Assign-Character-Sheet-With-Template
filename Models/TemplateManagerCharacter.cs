@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.Core;
@@ -24,7 +25,7 @@ public class TemplateManagerCharacter
     }
 
 
-    public void SetSkillImportantSkill(SkillObject skill, bool isImportant)
+    public void SetImportantSkill(SkillObject skill, bool isImportant)
     {
         TemplateManagerCharacterSkill? result = SkillList.FirstOrDefault((obj) => obj.StringId.Equals(skill.StringId));
         if (result != null)
@@ -33,7 +34,16 @@ public class TemplateManagerCharacter
         }
     }
 
-    public bool GetSkillImportantSkill(SkillObject skill)
+    public void SetImportantSkill(string skillId, bool isImportant)
+    {
+        TemplateManagerCharacterSkill? result = SkillList.FirstOrDefault(obj => obj.StringId.Equals(skillId));
+        if (result != null)
+        {
+            result.IsSkillImportant = isImportant;
+        }
+    }
+
+    public bool GetImportantSkill(SkillObject skill)
     {
         TemplateManagerCharacterSkill? result = SkillList.FirstOrDefault((obj) => obj.StringId.Equals(skill.StringId));
         if (result != null)
@@ -43,29 +53,6 @@ public class TemplateManagerCharacter
         else
         {
             return false;
-        }
-    }
-
-    public void SetAreAllPerksSelectedFromSkill(SkillObject skill, bool areAllPerksSelected)
-    {
-        TemplateManagerCharacterSkill? result = SkillList.FirstOrDefault((obj) => obj.StringId.Equals(skill.StringId));
-        if (result != null)
-        {
-            result.AreAllPerksSelected = areAllPerksSelected;
-        }
-    }
-
-    public bool GetAreAllPerksSelectedFromSkill(SkillObject skill)
-    {
-        TemplateManagerCharacterSkill? result = SkillList.FirstOrDefault((obj) => obj.StringId.Equals(skill.StringId));
-
-        if (result != null)
-        {
-            return result.AreAllPerksSelected;
-        }
-        else
-        {
-            return true;
         }
     }
 
@@ -83,16 +70,33 @@ public class TemplateManagerCharacter
         }
     }
 
+    public void ClearAllPerks()
+    {
+        foreach (TemplateManagerCharacterPerk perk in PerkList)
+        {
+            perk.Enable = false;
+        }
+    }
+
     public void SetPerkValue(PerkObject perk, bool enable)
     {
         TemplateManagerCharacterPerk? result = PerkList.FirstOrDefault(cp => cp.StringId.Equals(perk.StringId));
-        if (null != result)
+        if (result != null)
         {
             result.Enable = enable;
         }
         else
         {
             PerkList.Add(new TemplateManagerCharacterPerk(perk.StringId, perk.Skill.StringId, enable));
+        }
+    }
+
+    public void SetPerkValue(string perkId, bool enable)
+    {
+        TemplateManagerCharacterPerk? result = PerkList.FirstOrDefault(cp => cp.StringId.Equals(perkId));
+        if (result != null)
+        {
+            result.Enable = enable;
         }
     }
 
@@ -117,6 +121,14 @@ public class TemplateManagerCharacter
             var belongSkillId = perk.Skill?.StringId ?? string.Empty;
             var perkEntry = new TemplateManagerCharacterPerk(pid, belongSkillId, false);
             PerkList.Add(perkEntry);
+        }
+
+        var listSkills = CharacterUtils.GetSkillsWithWarSails();
+        foreach (var skill in listSkills)
+        {
+            var pid = skill.StringId ?? skill.GetType().Name;
+            var skillEntry = new TemplateManagerCharacterSkill(pid, false);
+            SkillList.Add(skillEntry);
         }
     }
 }

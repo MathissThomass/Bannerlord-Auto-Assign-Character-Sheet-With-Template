@@ -48,9 +48,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behavior\" />
-    <Folder Include="Services\" />
-    <Folder Include="_Module\GUI\Prefabs\Brushes\" />
+    <Folder Include="Behaviors\" />
+    <Folder Include="_Module\GUI\Brushes\" />
   </ItemGroup>
   
 </Project>

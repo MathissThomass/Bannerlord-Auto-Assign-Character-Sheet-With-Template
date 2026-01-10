@@ -1,5 +1,4 @@
-﻿using System;
-using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.State;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
@@ -21,6 +20,7 @@ public class TemplateManagerVM : ViewModel
         templateManagerState.EditTemplate.CreateNewTemplate();
         _templateManagerCharacter = templateManagerState.EditTemplate;
         _templateManagerState = templateManagerState;
+        LoadSavedTemplatesList();
         _templateManagerSkillGridVM = new TemplateManagerSkillGridVM(_templateManagerCharacter);
 
         _cancelLbl = "Annuler";
@@ -72,7 +72,7 @@ public class TemplateManagerVM : ViewModel
 
     public void ExecuteDone()
     {
-        Close();
+        
     }
 
     private void Close()
@@ -84,5 +84,15 @@ public class TemplateManagerVM : ViewModel
     {
         OnPropertyChanged(nameof(CancelLbl));
         OnPropertyChanged(nameof(DoneLbl));
+    }
+
+    private void LoadSavedTemplatesList()
+    {
+        var files = TemplateSaveManager.ListSavedTemplates();
+        if (files != null)
+        {
+            var dto = TemplateSaveManager.LoadTemplateFromFile(files[0]);
+            dto.ApplyToModel(_templateManagerCharacter);
+        }
     }
 }
