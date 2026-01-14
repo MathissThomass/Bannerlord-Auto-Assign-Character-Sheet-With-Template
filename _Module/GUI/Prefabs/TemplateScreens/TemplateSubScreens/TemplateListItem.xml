@@ -1,0 +1,24 @@
+<Prefab>
+    <Constants>
+    </Constants>
+    <VisualDefinitions>
+    </VisualDefinitions>
+
+
+    <Window>
+        <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed"
+                      SuggestedHeight="140" Command.Click="OnTemplateSelected"
+                      Brush="Clan.Item.Tuple" DoNotPassEventsToChildren="true" IsSelected="@IsInspected">
+            <Children>
+                <ListPanel HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent"
+                           StackLayout.LayoutMethod="HorizontalLeftToRight" UpdateChildrenStates="true">
+                    <Children>
+                        <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="300"
+                                    Text="@TemplateName"/>
+                        <TemplateSkillGridOverview />
+                    </Children>
+                </ListPanel>
+            </Children>
+        </ButtonWidget>
+    </Window>
+</Prefab> 

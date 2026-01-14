@@ -1,4 +1,5 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using System.Collections.Generic;
+using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.State;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
@@ -8,20 +9,30 @@ namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
 public class TemplateManagerVM : ViewModel
 {
-    private TemplateManagerCharacter _templateManagerCharacter;
+    private TemplateManagerCharacter _currentTemplate;
     private string _cancelLbl;
     private string _doneLbl;
-    private TemplateManagerState _templateManagerState;
+    private List<TemplateManagerCharacter> _templateManagerCharacterList;
     TemplateManagerSkillGridVM _templateManagerSkillGridVM;
+    private TemplateListVM _templateListVM;
 
     public TemplateManagerVM(TemplateManagerState templateManagerState)
     {
         templateManagerState.EditTemplate = new TemplateManagerCharacter();
         templateManagerState.EditTemplate.CreateNewTemplate();
-        _templateManagerCharacter = templateManagerState.EditTemplate;
-        _templateManagerState = templateManagerState;
+        _templateManagerCharacterList = new List<TemplateManagerCharacter>();
         LoadSavedTemplatesList();
-        _templateManagerSkillGridVM = new TemplateManagerSkillGridVM(_templateManagerCharacter);
+        // Ensure we have at least one template, otherwise use the edit template
+        if (_templateManagerCharacterList.Count > 0)
+        {
+            _currentTemplate = _templateManagerCharacterList[0]; //TODO if hero from characterdev have a template select this one 
+        }
+        else
+        {
+            _currentTemplate = templateManagerState.EditTemplate;
+        }
+        _templateManagerSkillGridVM = new TemplateManagerSkillGridVM(_currentTemplate);
+        _templateListVM = new TemplateListVM(_templateManagerCharacterList);
 
         _cancelLbl = "Annuler";
         _doneLbl = "Valider";
@@ -65,6 +76,15 @@ public class TemplateManagerVM : ViewModel
         }
     }
 
+    [DataSourceProperty]
+    public TemplateListVM TemplateListVM
+    {
+        get
+        {
+            return _templateListVM;
+        }
+    }
+
     public void ExecuteCancel()
     {
         Close();
@@ -84,15 +104,21 @@ public class TemplateManagerVM : ViewModel
     {
         OnPropertyChanged(nameof(CancelLbl));
         OnPropertyChanged(nameof(DoneLbl));
+        OnPropertyChanged(nameof(TemplateListVM));
+        OnPropertyChanged(nameof(TemplateSkillGridVM));
     }
 
     private void LoadSavedTemplatesList()
     {
         var files = TemplateSaveManager.ListSavedTemplates();
-        if (files != null)
+        if (files == null) return;
+        foreach (var file in files)
         {
-            var dto = TemplateSaveManager.LoadTemplateFromFile(files[0]);
-            dto.ApplyToModel(_templateManagerCharacter);
+            var dto = TemplateSaveManager.LoadTemplateFromFile(file);
+            TemplateManagerCharacter template = new TemplateManagerCharacter();
+            template.CreateNewTemplate();
+            _templateManagerCharacterList.Add(template);
+            dto.ApplyToModel(template);
         }
     }
 }

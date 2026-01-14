@@ -6,6 +6,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
+using TaleWorlds.TwoDimension;
 
 namespace AutoAssignCharacterSheetWithTemplate.Views;
 
@@ -15,6 +16,8 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     private TemplateManagerVM? _dataSource;
     private GauntletLayer? _layer;
     private TemplateManagerState _templateManagerState;
+    private SpriteCategory _clanCategory;
+    private SpriteCategory _navalCategory;
 
     /*protected override void OnInitialize()
     {
@@ -75,6 +78,15 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
 
     void IGameStateListener.OnActivate()
     {
+        SpriteData spriteData = UIResourceManager.SpriteData;
+        TwoDimensionEngineResourceContext resourceContext = UIResourceManager.ResourceContext;
+        ResourceDepot uIResourceDepot = UIResourceManager.ResourceDepot;
+        
+        _clanCategory = spriteData.SpriteCategories["ui_clan"];
+        _navalCategory = spriteData.SpriteCategories["ui_naval_character_developer"];
+        _clanCategory.Load(resourceContext, uIResourceDepot);
+        _navalCategory.Load(resourceContext, uIResourceDepot);
+        
         _layer = new GauntletLayer("TemplateManagerLayer", 11, true);
 
         _dataSource = new TemplateManagerVM(_templateManagerState);

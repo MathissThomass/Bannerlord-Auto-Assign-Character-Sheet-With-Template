@@ -1,13 +1,8 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
-using Newtonsoft.Json;
 using TaleWorlds.Core;
-using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using Path = System.IO.Path;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 

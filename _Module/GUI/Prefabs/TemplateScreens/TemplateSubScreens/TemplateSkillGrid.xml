@@ -6,7 +6,7 @@
 
 
     <Window>
-        <Widget HeightSizePolicy="StretchToParent" WidthSizePolicy="StretchToParent" HorizontalAlignment="Stretch"
+        <Widget HeightSizePolicy="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="1250" HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
             <Children>
 

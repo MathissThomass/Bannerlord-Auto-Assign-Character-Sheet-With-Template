@@ -23,8 +23,10 @@
                     </Children>
                 </Widget>
 
-                <TemplateList HorizontalAlignment="Left"/>
-                <TemplateSkillGrid DataSource="{TemplateSkillGridVM}" HorizontalAlignment="Right" VerticalAlignment="Stretch" MarginBottom="30"/>
+                <TemplateList DataSource="{TemplateListVM}" HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                              MarginBottom="30"/>
+                <TemplateSkillGrid DataSource="{TemplateSkillGridVM}" HorizontalAlignment="Right"
+                                   VerticalAlignment="Stretch" MarginBottom="30"/>
 
                 <Standard.TripleDialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center"
                                                    VerticalAlignment="Bottom" PositionYOffset="100"
