@@ -80,11 +80,18 @@ public class TemplateManagerSkillGridVM : ViewModel
 
     private void ExecuteSaveTemplate()
     {
-        InformationManager.ShowTextInquiry(new TextInquiryData(new TextObject("Enter the template name").ToString(),
-            new TextObject("Can only save up to 15").ToString(),
-            true, true, GameTexts.FindText("str_done", null).ToString(),
-            GameTexts.FindText("str_cancel", null).ToString(), OnEnterNameAfter, InformationManager.HideInquiry,
-            false));
+        var textInquiry = new TextInquiryData(
+            titleText: "Enter the template name",
+            text: "Template name :",
+            isAffirmativeOptionShown: true,
+            isNegativeOptionShown: true,
+            affirmativeText: GameTexts.FindText("str_done", null).ToString(),
+            negativeText: GameTexts.FindText("str_cancel", null).ToString(),
+            affirmativeAction: OnEnterNameAfter,
+            negativeAction: InformationManager.HideInquiry,
+            textCondition: TemplateSaveManager.CheckIfNameExists
+            );
+        InformationManager.ShowTextInquiry(textInquiry);
     }
 
     private void OnEnterNameAfter(string saveName)
