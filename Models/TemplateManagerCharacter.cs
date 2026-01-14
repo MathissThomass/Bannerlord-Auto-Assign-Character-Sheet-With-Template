@@ -14,6 +14,7 @@ public class TemplateManagerCharacter
     public List<TemplateManagerCharacterSkill> SkillList { get; set; }
     public List<TemplateManagerCharacterPerk> PerkList { get; set; }
     public List<Hero> HeroList { get; set; }
+    private bool _isFromNewCreatedTemplate;
 
 
     public TemplateManagerCharacter()
@@ -22,6 +23,7 @@ public class TemplateManagerCharacter
         SkillList = new List<TemplateManagerCharacterSkill>();
         PerkList = new List<TemplateManagerCharacterPerk>();
         HeroList = new List<Hero>();
+        _isFromNewCreatedTemplate = false;
     }
 
 
@@ -130,5 +132,15 @@ public class TemplateManagerCharacter
             var skillEntry = new TemplateManagerCharacterSkill(pid, false);
             SkillList.Add(skillEntry);
         }
+    }
+    
+    public bool GetIsFromNewCreatedTemplate()
+    {
+        return _isFromNewCreatedTemplate;
+    }
+
+    public void SetIsFromNewCreatedTemplate(bool newValue)
+    {
+        _isFromNewCreatedTemplate = newValue;
     }
 }

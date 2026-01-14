@@ -10,6 +10,7 @@ namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 public class TemplateManagerVM : ViewModel
 {
     private TemplateManagerCharacter _currentTemplate;
+    private int _currentTemplateIndex;
     private string _cancelLbl;
     private string _doneLbl;
     private List<TemplateManagerCharacter> _templateManagerCharacterList;
@@ -42,7 +43,7 @@ public class TemplateManagerVM : ViewModel
         
         foreach (var templateManagerCharacter in _templateManagerCharacterList)
         {
-            SkillGridListVm.Add(new TemplateManagerSkillGridVM(templateManagerCharacter));
+            SkillGridListVm.Add(new TemplateManagerSkillGridVM(templateManagerCharacter, OnSaveTemplate));
         }
         
         _currentSkillGridVM = SkillGridListVm[0]; //TODO a changer
@@ -55,12 +56,13 @@ public class TemplateManagerVM : ViewModel
 
     public void ExecuteCancel()
     {
+        //TODO
         Close();
     }
 
     public void ExecuteDone()
     {
-        
+        //TODO
     }
 
     private void Close()
@@ -72,15 +74,26 @@ public class TemplateManagerVM : ViewModel
     {
         _currentTemplate = templateManagerCharacter;
         _currentSkillGridVM = SkillGridListVm[index];
+        _currentTemplateIndex = index;
         OnPropertyChanged("TemplateSkillGridVM");
     }
 
     private void OnCreateNewTemplate(TemplateManagerCharacter newTemplate)
     {
-        SkillGridListVm.Add(new TemplateManagerSkillGridVM(newTemplate));
+        newTemplate.SetIsFromNewCreatedTemplate(true);
+        SkillGridListVm.Add(new TemplateManagerSkillGridVM(newTemplate, OnSaveTemplate));
         _currentTemplate = newTemplate;
-        _currentSkillGridVM = new TemplateManagerSkillGridVM(_currentTemplate);
+        _currentSkillGridVM = new TemplateManagerSkillGridVM(_currentTemplate, OnSaveTemplate);
+        _currentTemplateIndex = _templateListVM.ListItemVM.Count - 1;
         OnPropertyChanged("TemplateSkillGridVM");
+    }
+
+    private void OnSaveTemplate(TemplateManagerCharacter templateCharacter)
+    {
+        templateCharacter.SetIsFromNewCreatedTemplate(false);
+        _currentTemplate = templateCharacter;
+        _templateListVM._templateManagerCharacterList[_currentTemplateIndex] = templateCharacter;
+        _templateListVM.RefreshTemplateList(_currentTemplateIndex);
     }
 
     private void RefreshValues()

@@ -9,7 +9,7 @@ namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
 public class TemplateListVM : ViewModel
 {
-    List<TemplateManagerCharacter> _templateManagerCharacterList;
+    public List<TemplateManagerCharacter> _templateManagerCharacterList;
     MBBindingList<TemplateListItemVM> _listItemVm;
     TemplateListItemVM _currentTemplateListItemVM;
     Action<TemplateManagerCharacter, int> _onTemplateSelectedChanged;
@@ -24,7 +24,7 @@ public class TemplateListVM : ViewModel
         RefreshTemplateList(0); // TODO change to the one selected if hero had a temlplate
     }
 
-    private void RefreshTemplateList(int inspectedIndex)
+    public void RefreshTemplateList(int inspectedIndex)
     {
         ListItemVM.Clear();
         foreach (var templateCharacter in _templateManagerCharacterList)

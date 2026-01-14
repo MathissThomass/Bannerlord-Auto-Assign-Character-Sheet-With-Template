@@ -1,4 +1,5 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using System;
+using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -15,11 +16,14 @@ public class TemplateManagerSkillGridVM : ViewModel
     private TemplateManagerSkillVM _currentSkillVM;
 
     private bool _isImportantSkillToggleOn;
+    
+    Action<TemplateManagerCharacter> _onSaveTemplate;
 
-    public TemplateManagerSkillGridVM(TemplateManagerCharacter templateCharacter)
+    public TemplateManagerSkillGridVM(TemplateManagerCharacter templateCharacter, Action<TemplateManagerCharacter> onSaveTemplate)
     {
         TemplateCharacter = templateCharacter;
         _skillsVM = new MBBindingList<TemplateManagerSkillVM>();
+        _onSaveTemplate = onSaveTemplate;
         RefreshHeroSkills();
     }
 
@@ -80,27 +84,39 @@ public class TemplateManagerSkillGridVM : ViewModel
 
     private void ExecuteSaveTemplate()
     {
-        var textInquiry = new TextInquiryData(
-            titleText: "Enter the template name",
-            text: "Template name :",
-            isAffirmativeOptionShown: true,
-            isNegativeOptionShown: true,
-            affirmativeText: GameTexts.FindText("str_done", null).ToString(),
-            negativeText: GameTexts.FindText("str_cancel", null).ToString(),
-            affirmativeAction: OnEnterNameAfter,
-            negativeAction: InformationManager.HideInquiry,
-            textCondition: TemplateSaveManager.CheckIfNameExists
+        if (!TemplateCharacter.GetIsFromNewCreatedTemplate())
+        {
+            SaveTemplate();
+        }
+        else
+        {
+            var textInquiry = new TextInquiryData(
+                titleText: "Enter the template name",
+                text: "Template name :",
+                isAffirmativeOptionShown: true,
+                isNegativeOptionShown: true,
+                affirmativeText: GameTexts.FindText("str_done", null).ToString(),
+                negativeText: GameTexts.FindText("str_cancel", null).ToString(),
+                affirmativeAction: OnEnterNameAfter,
+                negativeAction: InformationManager.HideInquiry,
+                textCondition: TemplateSaveManager.CheckIfNameExists
             );
-        InformationManager.ShowTextInquiry(textInquiry);
+            InformationManager.ShowTextInquiry(textInquiry);
+        }
     }
 
     private void OnEnterNameAfter(string saveName)
     {
         TemplateCharacter.Name = saveName;
-        var data = TemplateCharacterDto.FromModel(TemplateCharacter);
-        TemplateSaveManager.SaveTemplate(data);
+        SaveTemplate();
     }
 
+    private void SaveTemplate()
+    {
+        var data = TemplateCharacterDto.FromModel(TemplateCharacter);
+        TemplateSaveManager.SaveTemplate(data);
+        _onSaveTemplate(TemplateCharacter);
+    }
 
     private void RefreshHeroSkills()
     {
