@@ -21,7 +21,7 @@ public class TemplateManagerVM : ViewModel
         templateManagerState.EditTemplate = new TemplateManagerCharacter();
         templateManagerState.EditTemplate.CreateNewTemplate();
         _templateManagerCharacterList = new List<TemplateManagerCharacter>();
-        LoadSavedTemplatesList();
+        _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
         // Ensure we have at least one template, otherwise use the edit template
         if (_templateManagerCharacterList.Count > 0)
         {
@@ -106,19 +106,5 @@ public class TemplateManagerVM : ViewModel
         OnPropertyChanged(nameof(DoneLbl));
         OnPropertyChanged(nameof(TemplateListVM));
         OnPropertyChanged(nameof(TemplateSkillGridVM));
-    }
-
-    private void LoadSavedTemplatesList()
-    {
-        var files = TemplateSaveManager.ListSavedTemplates();
-        if (files == null) return;
-        foreach (var file in files)
-        {
-            var dto = TemplateSaveManager.LoadTemplateFromFile(file);
-            TemplateManagerCharacter template = new TemplateManagerCharacter();
-            template.CreateNewTemplate();
-            _templateManagerCharacterList.Add(template);
-            dto.ApplyToModel(template);
-        }
     }
 }

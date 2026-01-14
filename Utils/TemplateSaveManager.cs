@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using AutoAssignCharacterSheetWithTemplate.Models;
@@ -63,5 +65,41 @@ public class TemplateSaveManager
         var folder = GetSavesFolder();
         if (!Directory.Exists(folder)) return null;
         return Directory.GetFiles(folder, "*.json");
+    }
+    
+    public static List<TemplateManagerCharacter> LoadSavedTemplatesList()
+    {
+        var templateManagerCharacterList = new List<TemplateManagerCharacter>();
+        var files = ListSavedTemplates();
+        if (files == null) return templateManagerCharacterList;
+        foreach (var file in files)
+        {
+            var dto = TemplateSaveManager.LoadTemplateFromFile(file);
+            TemplateManagerCharacter template = new TemplateManagerCharacter();
+            template.CreateNewTemplate();
+            templateManagerCharacterList.Add(template);
+            dto.ApplyToModel(template);
+        }
+        return templateManagerCharacterList;
+    }
+
+    public static void DeleteTemplate(string fileName)
+    {
+        try
+        {
+            var folder = GetSavesFolder();
+            var path = Path.Combine(folder, fileName + ".json");
+
+            if (!File.Exists(path))
+            {
+                TM_Log.Error($"File {path} doesn't exist");
+            }
+            
+            File.Delete(path);
+        }
+        catch (IOException e)
+        {
+            TM_Log.Error($"IO error while deleting template: {e.Message}");
+        }
     }
 }

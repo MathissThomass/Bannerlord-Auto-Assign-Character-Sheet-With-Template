@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using AutoAssignCharacterSheetWithTemplate.Models;
+using AutoAssignCharacterSheetWithTemplate.Utils;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -36,10 +39,26 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteDeleteCurrent()
     {
-        //TODO
+        var inquiry = new InquiryData(
+            titleText: "Delete current template",
+            text: "Are you sure you want to delete the current template?",
+            isAffirmativeOptionShown: true,
+            isNegativeOptionShown: true,
+            affirmativeText: "Delete",
+            negativeText: "Cancel",
+            affirmativeAction: OnDeleteCurrentTemplate,
+            negativeAction: InformationManager.HideInquiry
+        );
+        InformationManager.ShowInquiry(inquiry);
     }
 
     private void ExecuteCreateNew()
+    {
+        //TODO
+    }
+
+    private void ExecuteDuplicateCurrentTemplate()
+    
     {
         //TODO
     }
@@ -60,6 +79,13 @@ public class TemplateListVM : ViewModel
 
             CurrentTemplateItemVM = templateListVM;
         }
+    }
+
+    private void OnDeleteCurrentTemplate()
+    {
+        TemplateSaveManager.DeleteTemplate(_currentTemplateListItemVM.TemplateName);
+        _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
+        RefreshTemplateList();
     }
 
     [DataSourceProperty]

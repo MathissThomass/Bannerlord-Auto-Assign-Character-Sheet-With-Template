@@ -6,7 +6,7 @@
 
 
     <Window>
-        <ListPanel HeightSizePolicy="CoverChildren" WidthSizePolicy="Fixed" SuggestedWidth="625" HorizontalAlignment="Left"
+        <ListPanel HeightSizePolicy="CoverChildren" WidthSizePolicy="Fixed" SuggestedWidth="900" HorizontalAlignment="Left"
                    VerticalAlignment="Top" UpdateChildrenStates="true" MarginLeft="15" MarginTop="125"
                    MarginBottom="50" StackLayout.LayoutMethod="VerticalBottomToTop">
             <Children>
@@ -15,7 +15,7 @@
 
                 <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="4" MarginBottom="10" MarginTop="5" Sprite="Clan\divider_mid"/>
 
-                <!-- 3 buttons panel, Delete Current, Create New, and Assign to hero -->
+                <!-- 4 buttons panel, Delete Current, Create New, Duplicate and Assign to hero -->
                 <ListPanel HeightSizePolicy="CoverChildren" WidthSizePolicy="CoverChildren"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            MarginBottom="20" StackLayout.LayoutMethod="HorizontalLeftToRight"
@@ -44,6 +44,19 @@
                                                 HeightSizePolicy="StretchToParent"
                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
                                                 Text="Create New"/>
+                            </Children>
+                        </ButtonWidget>
+
+                        <ButtonWidget Id="DuplicateCurrentTemplate" DoNotPassEventsToChildren="true"
+                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                      SuggestedWidth="180" SuggestedHeight="40"
+                                      Brush="ButtonBrush2" MarginRight="30"
+                                      Command.Click="ExecuteDuplicateCurrentTemplate">
+                            <Children>
+                                <RichTextWidget WidthSizePolicy="StretchToParent"
+                                                HeightSizePolicy="StretchToParent"
+                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                Text="Duplicate current template"/>
                             </Children>
                         </ButtonWidget>
 
