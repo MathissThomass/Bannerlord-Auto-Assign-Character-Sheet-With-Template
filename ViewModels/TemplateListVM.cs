@@ -17,10 +17,10 @@ public class TemplateListVM : ViewModel
     {
         _templateManagerCharacterList = templateManagerCharacterList;
         _listItemVm = new MBBindingList<TemplateListItemVM>();
-        RefreshTemplateList();
+        RefreshTemplateList(0);
     }
 
-    private void RefreshTemplateList()
+    private void RefreshTemplateList(int inspectedIndex)
     {
         ListItemVM.Clear();
         foreach (var templateCharacter in _templateManagerCharacterList)
@@ -30,8 +30,8 @@ public class TemplateListVM : ViewModel
 
         if (ListItemVM.Count > 0)
         {
-            ListItemVM[0].IsInspected = true; // TODO change to the one selected if hero had a temlplate
-            _currentTemplateListItemVM = ListItemVM[0];
+            ListItemVM[inspectedIndex].IsInspected = true; // TODO change to the one selected if hero had a temlplate
+            _currentTemplateListItemVM = ListItemVM[inspectedIndex];
         }
 
         OnPropertyChanged("ListItemVM");
@@ -54,7 +54,14 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteCreateNew()
     {
-        //TODO
+        var newTemplate = new TemplateManagerCharacter
+        {
+            Name = "New created template"
+        };
+        newTemplate.CreateNewTemplate();
+        _templateManagerCharacterList.Add(newTemplate);
+        var index = _templateManagerCharacterList.Count - 1;
+        RefreshTemplateList(index);
     }
 
     private void ExecuteDuplicateCurrentTemplate()
@@ -85,7 +92,7 @@ public class TemplateListVM : ViewModel
     {
         TemplateSaveManager.DeleteTemplate(_currentTemplateListItemVM.TemplateName);
         _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
-        RefreshTemplateList();
+        RefreshTemplateList(0);
     }
 
     [DataSourceProperty]
