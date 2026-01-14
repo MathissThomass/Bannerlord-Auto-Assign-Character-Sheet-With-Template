@@ -83,7 +83,7 @@ public class TemplateManagerVM : ViewModel
         newTemplate.SetIsFromNewCreatedTemplate(true);
         SkillGridListVm.Add(new TemplateManagerSkillGridVM(newTemplate, OnSaveTemplate));
         _currentTemplate = newTemplate;
-        _currentSkillGridVM = new TemplateManagerSkillGridVM(_currentTemplate, OnSaveTemplate);
+        _currentSkillGridVM = SkillGridListVm[SkillGridListVm.Count - 1];
         _currentTemplateIndex = _templateListVM.ListItemVM.Count - 1;
         OnPropertyChanged("TemplateSkillGridVM");
     }
