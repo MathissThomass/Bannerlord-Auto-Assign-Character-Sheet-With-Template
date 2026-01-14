@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
+using Newtonsoft.Json;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -65,9 +66,14 @@ public class TemplateListVM : ViewModel
     }
 
     private void ExecuteDuplicateCurrentTemplate()
-    
     {
-        //TODO
+        var original = _currentTemplateListItemVM._templateManagerCharacter; var json = JsonConvert.SerializeObject(original); 
+        var newTemplate = JsonConvert.DeserializeObject<TemplateManagerCharacter>(json);
+        newTemplate.Name = "Duplicate " + newTemplate.Name;
+        newTemplate.CreateNewTemplate();
+        _templateManagerCharacterList.Add(newTemplate);
+        var index = _templateManagerCharacterList.Count - 1;
+        RefreshTemplateList(index);
     }
 
     private void ExecuteOpenHeroListToAssign()
@@ -75,16 +81,16 @@ public class TemplateListVM : ViewModel
         //TODO
     }
 
-    public void OnTemplateSelectedChanged(TemplateListItemVM templateListVM)
+    public void OnTemplateSelectedChanged(TemplateListItemVM templateListItemVm)
     {
-        if (templateListVM != _currentTemplateListItemVM)
+        if (templateListItemVm != _currentTemplateListItemVM)
         {
             if (_currentTemplateListItemVM != null)
             {
                 _currentTemplateListItemVM.IsInspected = false;
             }
 
-            CurrentTemplateItemVM = templateListVM;
+            CurrentTemplateItemVM = templateListItemVm;
         }
     }
 
