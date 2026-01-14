@@ -23,14 +23,19 @@ public class TemplateManagerVM : ViewModel
         templateManagerState.EditTemplate.CreateNewTemplate();
         _templateManagerCharacterList = new List<TemplateManagerCharacter>();
         _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
-        // Ensure we have at least one template, otherwise use the edit template
         if (_templateManagerCharacterList.Count > 0)
         {
-            _currentTemplate = _templateManagerCharacterList[0]; //TODO if hero from characterdev have a template select this one 
+            _currentTemplate = _templateManagerCharacterList[0]; //TODO if hero from characterdev have a template select this one
         }
         else
         {
-            _currentTemplate = templateManagerState.EditTemplate;
+            var newTemplate = new TemplateManagerCharacter
+            {
+                Name = "New created template"
+            };
+            newTemplate.CreateNewTemplate();
+            _templateManagerCharacterList.Add(newTemplate);
+            _currentTemplate = _templateManagerCharacterList[0];
         }
 
         SkillGridListVm = new MBBindingList<TemplateManagerSkillGridVM>();
