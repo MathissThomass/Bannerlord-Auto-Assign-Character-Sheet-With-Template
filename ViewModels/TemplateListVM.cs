@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using Newtonsoft.Json;
@@ -15,7 +16,9 @@ public class TemplateListVM : ViewModel
     Action<TemplateManagerCharacter, int> _onTemplateSelectedChanged;
     private Action<TemplateManagerCharacter> _onCreateNewTemplate;
 
-    public TemplateListVM(List<TemplateManagerCharacter> templateManagerCharacterList, Action<TemplateManagerCharacter, int> onTemplateSelectedChanged, Action<TemplateManagerCharacter> onCreateNewTemplate)
+    public TemplateListVM(List<TemplateManagerCharacter> templateManagerCharacterList,
+        Action<TemplateManagerCharacter, int> onTemplateSelectedChanged,
+        Action<TemplateManagerCharacter> onCreateNewTemplate)
     {
         _templateManagerCharacterList = templateManagerCharacterList;
         _listItemVm = new MBBindingList<TemplateListItemVM>();
@@ -60,7 +63,7 @@ public class TemplateListVM : ViewModel
     {
         var newTemplate = new TemplateManagerCharacter
         {
-            Name = "New created template"
+            Name = GenerateUniqueName("New created template")
         };
         newTemplate.CreateNewTemplate();
         _templateManagerCharacterList.Add(newTemplate);
@@ -71,9 +74,10 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteDuplicateCurrentTemplate()
     {
-        var original = _currentTemplateListItemVM._templateManagerCharacter; var json = JsonConvert.SerializeObject(original); 
+        var original = _currentTemplateListItemVM._templateManagerCharacter;
+        var json = JsonConvert.SerializeObject(original);
         var newTemplate = JsonConvert.DeserializeObject<TemplateManagerCharacter>(json);
-        newTemplate.Name = "Duplicate " + newTemplate.Name;
+        newTemplate.Name = GenerateUniqueName("Duplicate " + newTemplate.Name);
         newTemplate.CreateNewTemplate();
         _templateManagerCharacterList.Add(newTemplate);
         var index = _templateManagerCharacterList.Count - 1;
@@ -103,9 +107,34 @@ public class TemplateListVM : ViewModel
 
     private void OnDeleteCurrentTemplate()
     {
-        TemplateSaveManager.DeleteTemplate(_currentTemplateListItemVM.TemplateName);
-        _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
+        if (!_currentTemplateListItemVM._templateManagerCharacter.GetIsFromNewCreatedTemplate())
+        {
+            TemplateSaveManager.DeleteTemplate(_currentTemplateListItemVM.TemplateName);
+        }
+
+        var result = _templateManagerCharacterList.Find(obj => obj.Name == _currentTemplateListItemVM.TemplateName);
+        _templateManagerCharacterList.Remove(result);
         RefreshTemplateList(0);
+    }
+
+    private string GenerateUniqueName(string baseName)
+    {
+        var existingNames = _templateManagerCharacterList.Select(t => t.Name).ToList();
+
+        if (!existingNames.Contains(baseName))
+        {
+            return baseName;
+        }
+
+        int counter = 2;
+        string candidate;
+
+        do
+        {
+            candidate = $"{baseName} {counter}";
+            counter++;
+        } while (existingNames.Contains(candidate));
+        return candidate;
     }
 
     [DataSourceProperty]
