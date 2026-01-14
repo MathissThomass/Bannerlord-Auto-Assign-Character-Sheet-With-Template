@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using Newtonsoft.Json;
-using TaleWorlds.Core;
 using TaleWorlds.Library;
-using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -13,12 +12,16 @@ public class TemplateListVM : ViewModel
     List<TemplateManagerCharacter> _templateManagerCharacterList;
     MBBindingList<TemplateListItemVM> _listItemVm;
     TemplateListItemVM _currentTemplateListItemVM;
+    Action<TemplateManagerCharacter, int> _onTemplateSelectedChanged;
+    private Action<TemplateManagerCharacter> _onCreateNewTemplate;
 
-    public TemplateListVM(List<TemplateManagerCharacter> templateManagerCharacterList)
+    public TemplateListVM(List<TemplateManagerCharacter> templateManagerCharacterList, Action<TemplateManagerCharacter, int> onTemplateSelectedChanged, Action<TemplateManagerCharacter> onCreateNewTemplate)
     {
         _templateManagerCharacterList = templateManagerCharacterList;
         _listItemVm = new MBBindingList<TemplateListItemVM>();
-        RefreshTemplateList(0);
+        _onTemplateSelectedChanged = onTemplateSelectedChanged;
+        _onCreateNewTemplate = onCreateNewTemplate;
+        RefreshTemplateList(0); // TODO change to the one selected if hero had a temlplate
     }
 
     private void RefreshTemplateList(int inspectedIndex)
@@ -31,7 +34,7 @@ public class TemplateListVM : ViewModel
 
         if (ListItemVM.Count > 0)
         {
-            ListItemVM[inspectedIndex].IsInspected = true; // TODO change to the one selected if hero had a temlplate
+            ListItemVM[inspectedIndex].IsInspected = true;
             _currentTemplateListItemVM = ListItemVM[inspectedIndex];
         }
 
@@ -63,6 +66,7 @@ public class TemplateListVM : ViewModel
         _templateManagerCharacterList.Add(newTemplate);
         var index = _templateManagerCharacterList.Count - 1;
         RefreshTemplateList(index);
+        _onCreateNewTemplate(newTemplate);
     }
 
     private void ExecuteDuplicateCurrentTemplate()
@@ -74,6 +78,7 @@ public class TemplateListVM : ViewModel
         _templateManagerCharacterList.Add(newTemplate);
         var index = _templateManagerCharacterList.Count - 1;
         RefreshTemplateList(index);
+        _onCreateNewTemplate(newTemplate);
     }
 
     private void ExecuteOpenHeroListToAssign()
@@ -91,6 +96,8 @@ public class TemplateListVM : ViewModel
             }
 
             CurrentTemplateItemVM = templateListItemVm;
+            int index = _listItemVm.IndexOf(templateListItemVm);
+            _onTemplateSelectedChanged(CurrentTemplateItemVM._templateManagerCharacter, index);
         }
     }
 

@@ -10,7 +10,7 @@ public class TemplateManagerSkillGridVM : ViewModel
 {
     MBBindingList<TemplateManagerSkillVM> _skillsVM;
 
-    private TemplateManagerCharacter _templateCharacter;
+    public TemplateManagerCharacter TemplateCharacter;
 
     private TemplateManagerSkillVM _currentSkillVM;
 
@@ -18,7 +18,7 @@ public class TemplateManagerSkillGridVM : ViewModel
 
     public TemplateManagerSkillGridVM(TemplateManagerCharacter templateCharacter)
     {
-        _templateCharacter = templateCharacter;
+        TemplateCharacter = templateCharacter;
         _skillsVM = new MBBindingList<TemplateManagerSkillVM>();
         RefreshHeroSkills();
     }
@@ -59,13 +59,13 @@ public class TemplateManagerSkillGridVM : ViewModel
 
     private void ExecuteClearSkillPerks()
     {
-        _templateCharacter.ClearPerkSkill(_currentSkillVM.Skill);
+        TemplateCharacter.ClearPerkSkill(_currentSkillVM.Skill);
         _currentSkillVM.RefreshSkillPerksState();
     }
 
     private void ExecuteClearAllPerks()
     {
-        _templateCharacter.ClearAllPerks();
+        TemplateCharacter.ClearAllPerks();
         foreach (var skillsVM in _skillsVM)
         {
             skillsVM.RefreshSkillPerksState();
@@ -89,8 +89,8 @@ public class TemplateManagerSkillGridVM : ViewModel
 
     private void OnEnterNameAfter(string saveName)
     {
-        _templateCharacter.Name = saveName;
-        var data = TemplateCharacterDto.FromModel(_templateCharacter);
+        TemplateCharacter.Name = saveName;
+        var data = TemplateCharacterDto.FromModel(TemplateCharacter);
         TemplateSaveManager.SaveTemplate(data);
     }
 
@@ -101,15 +101,15 @@ public class TemplateManagerSkillGridVM : ViewModel
         var skillObjectList = CharacterUtils.GetSkillsWithWarSails();
         foreach (SkillObject current in skillObjectList)
         {
-            SkillsVM.Add(new TemplateManagerSkillVM(current, _templateCharacter,
-                _templateCharacter.GetImportantSkill(current), OnSkillSelectedChange));
+            SkillsVM.Add(new TemplateManagerSkillVM(current, TemplateCharacter,
+                TemplateCharacter.GetImportantSkill(current), OnSkillSelectedChange));
         }
 
         SkillsVM[0].IsInspected = true;
         _currentSkillVM = SkillsVM[0];
         OnPropertyChanged("CurrentSkill");
     }
-
+    
     public void OnSkillSelectedChange(TemplateManagerSkillVM templateManagerSkillVM)
     {
         if (templateManagerSkillVM != _currentSkillVM)
@@ -121,7 +121,7 @@ public class TemplateManagerSkillGridVM : ViewModel
         if (_isImportantSkillToggleOn)
         {
             _currentSkillVM.IsImportantSkill = !_currentSkillVM.IsImportantSkill;
-            _templateCharacter.SetImportantSkill(_currentSkillVM.Skill, _currentSkillVM.IsImportantSkill);
+            TemplateCharacter.SetImportantSkill(_currentSkillVM.Skill, _currentSkillVM.IsImportantSkill);
         }
     }
 }

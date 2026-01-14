@@ -13,7 +13,8 @@ public class TemplateManagerVM : ViewModel
     private string _cancelLbl;
     private string _doneLbl;
     private List<TemplateManagerCharacter> _templateManagerCharacterList;
-    TemplateManagerSkillGridVM _templateManagerSkillGridVM;
+    TemplateManagerSkillGridVM _currentSkillGridVM;
+    private MBBindingList<TemplateManagerSkillGridVM> SkillGridListVm;
     private TemplateListVM _templateListVM;
 
     public TemplateManagerVM(TemplateManagerState templateManagerState)
@@ -31,14 +32,60 @@ public class TemplateManagerVM : ViewModel
         {
             _currentTemplate = templateManagerState.EditTemplate;
         }
-        _templateManagerSkillGridVM = new TemplateManagerSkillGridVM(_currentTemplate);
-        _templateListVM = new TemplateListVM(_templateManagerCharacterList);
+
+        SkillGridListVm = new MBBindingList<TemplateManagerSkillGridVM>();
+        
+        foreach (var templateManagerCharacter in _templateManagerCharacterList)
+        {
+            SkillGridListVm.Add(new TemplateManagerSkillGridVM(templateManagerCharacter));
+        }
+        
+        _currentSkillGridVM = SkillGridListVm[0]; //TODO a changer
+        _templateListVM = new TemplateListVM(_templateManagerCharacterList, OnTemplateCharacterSelectedChange, OnCreateNewTemplate);
 
         _cancelLbl = "Annuler";
         _doneLbl = "Valider";
         RefreshValues();
     }
 
+    public void ExecuteCancel()
+    {
+        Close();
+    }
+
+    public void ExecuteDone()
+    {
+        
+    }
+
+    private void Close()
+    {
+        GameStateManager.Current.PopState();
+    }
+
+    private void OnTemplateCharacterSelectedChange(TemplateManagerCharacter templateManagerCharacter, int index)
+    {
+        _currentTemplate = templateManagerCharacter;
+        _currentSkillGridVM = SkillGridListVm[index];
+        OnPropertyChanged("TemplateSkillGridVM");
+    }
+
+    private void OnCreateNewTemplate(TemplateManagerCharacter newTemplate)
+    {
+        SkillGridListVm.Add(new TemplateManagerSkillGridVM(newTemplate));
+        _currentTemplate = newTemplate;
+        _currentSkillGridVM = new TemplateManagerSkillGridVM(_currentTemplate);
+        OnPropertyChanged("TemplateSkillGridVM");
+    }
+
+    private void RefreshValues()
+    {
+        OnPropertyChanged(nameof(CancelLbl));
+        OnPropertyChanged(nameof(DoneLbl));
+        OnPropertyChanged(nameof(TemplateListVM));
+        OnPropertyChanged(nameof(TemplateSkillGridVM));
+    }
+    
     [DataSourceProperty]
     public string CancelLbl
     {
@@ -72,7 +119,15 @@ public class TemplateManagerVM : ViewModel
     {
         get
         {
-            return _templateManagerSkillGridVM;
+            return _currentSkillGridVM;
+        }
+        set
+        {
+            if (_currentSkillGridVM != value)
+            {
+                _currentSkillGridVM = value;
+                OnPropertyChangedWithValue(value, "TemplateSkillGridVM");
+            }
         }
     }
 
@@ -83,28 +138,5 @@ public class TemplateManagerVM : ViewModel
         {
             return _templateListVM;
         }
-    }
-
-    public void ExecuteCancel()
-    {
-        Close();
-    }
-
-    public void ExecuteDone()
-    {
-        
-    }
-
-    private void Close()
-    {
-        GameStateManager.Current.PopState();
-    }
-
-    private void RefreshValues()
-    {
-        OnPropertyChanged(nameof(CancelLbl));
-        OnPropertyChanged(nameof(DoneLbl));
-        OnPropertyChanged(nameof(TemplateListVM));
-        OnPropertyChanged(nameof(TemplateSkillGridVM));
     }
 }
