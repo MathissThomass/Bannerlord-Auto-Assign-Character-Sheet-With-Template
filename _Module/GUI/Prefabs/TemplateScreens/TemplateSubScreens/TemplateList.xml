@@ -63,6 +63,19 @@
                             </Children>
                         </ButtonWidget>
 
+                        <ButtonWidget Id="RenameCurrentTemplate" DoNotPassEventsToChildren="true"
+                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                      SuggestedWidth="180" SuggestedHeight="40"
+                                      Brush="ButtonBrush2" MarginRight="30"
+                                      Command.Click="ExecuteRenameCurrentTemplate">
+                            <Children>
+                                <RichTextWidget WidthSizePolicy="StretchToParent"
+                                                HeightSizePolicy="StretchToParent"
+                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                Text="Rename current template"/>
+                            </Children>
+                        </ButtonWidget>
+
                         <ButtonWidget Id="AssignToHero" DoNotPassEventsToChildren="true"
                                       WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
                                       SuggestedWidth="180" SuggestedHeight="40"

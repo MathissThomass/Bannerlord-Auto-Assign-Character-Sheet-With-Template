@@ -113,4 +113,39 @@ public class TemplateSaveManager
         }
         return new Tuple<bool, string>(false, "Name already exists");
     }
+
+    public static void RenameSaveFile(string newFileName, string oldFileName)
+    {
+        var folder = GetSavesFolder();
+
+        string oldPath = Path.Combine(folder, SanitizeFileName(oldFileName) + ".json");
+        string newPath = Path.Combine(folder, SanitizeFileName(newFileName) + ".json");
+
+        if (!File.Exists(oldPath))
+        {
+            TM_Log.Error($"Le fichier à renommer n'existe pas : {oldPath}");
+            return;
+        }
+
+        try
+        {
+            string json = File.ReadAllText(oldPath);
+
+            var data = JsonConvert.DeserializeObject<TemplateCharacterDto>(json);
+
+            data.Name = newFileName;
+
+            string newJson = JsonConvert.SerializeObject(data, Formatting.Indented);
+
+            File.WriteAllText(newPath, newJson);
+
+            File.Delete(oldPath);
+
+        }
+        catch (Exception e)
+        {
+            TM_Log.Error($"Erreur lors du renommage : {e.Message}");
+        }
+    }
+
 }

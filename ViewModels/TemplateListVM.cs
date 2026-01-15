@@ -4,6 +4,7 @@ using System.Linq;
 using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using Newtonsoft.Json;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
@@ -85,9 +86,39 @@ public class TemplateListVM : ViewModel
         _onCreateNewTemplate(newTemplate);
     }
 
+    private void ExecuteRenameCurrentTemplate()
+    {
+        var textInquiry = new TextInquiryData(
+            titleText: "Enter the template name",
+            text: "New template name :",
+            isAffirmativeOptionShown: true,
+            isNegativeOptionShown: true,
+            affirmativeText: GameTexts.FindText("str_done", null).ToString(),
+            negativeText: GameTexts.FindText("str_cancel", null).ToString(),
+            affirmativeAction: OnEnterNameAfter,
+            negativeAction: InformationManager.HideInquiry,
+            textCondition: TemplateSaveManager.CheckIfNameExists,
+            defaultInputText: _currentTemplateListItemVM.TemplateName
+        );
+        InformationManager.ShowTextInquiry(textInquiry);
+    }
+
     private void ExecuteOpenHeroListToAssign()
     {
         //TODO
+    }
+
+    private void OnEnterNameAfter(string newName)
+    {
+        if (!_currentTemplateListItemVM._templateManagerCharacter.GetIsFromNewCreatedTemplate())
+        {
+            TemplateSaveManager.RenameSaveFile(newName, _currentTemplateListItemVM.TemplateName);
+        }
+
+        var index = _listItemVm.FindIndex(obj => obj.Equals(_currentTemplateListItemVM));
+        _currentTemplateListItemVM.TemplateName = newName;
+        _templateManagerCharacterList[index].Name = newName;
+        RefreshTemplateList(index);
     }
 
     public void OnTemplateSelectedChanged(TemplateListItemVM templateListItemVm)
