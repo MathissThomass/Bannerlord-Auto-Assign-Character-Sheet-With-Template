@@ -82,7 +82,7 @@ public class TemplateManagerSkillGridVM : ViewModel
         OnPropertyChanged("IsImportantButtonBrushStringId");
     }
 
-    private void ExecuteSaveTemplate()
+    public void ExecuteSaveTemplate()
     {
         if (!TemplateCharacter.GetIsFromNewCreatedTemplate())
         {
@@ -115,6 +115,7 @@ public class TemplateManagerSkillGridVM : ViewModel
     {
         var data = TemplateCharacterDto.FromModel(TemplateCharacter);
         TemplateSaveManager.SaveTemplate(data);
+        TemplateCharacter.UpdateSavedStateSnapshot();
         _onSaveTemplate(TemplateCharacter);
     }
 

@@ -26,7 +26,8 @@ public class TemplateManagerVM : ViewModel
         _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
         if (_templateManagerCharacterList.Count > 0)
         {
-            _currentTemplate = _templateManagerCharacterList[0]; //TODO if hero from characterdev have a template select this one
+            _currentTemplate =
+                _templateManagerCharacterList[0]; //TODO if hero from characterdev have a template select this one
         }
         else
         {
@@ -40,14 +41,15 @@ public class TemplateManagerVM : ViewModel
         }
 
         SkillGridListVm = new MBBindingList<TemplateManagerSkillGridVM>();
-        
+
         foreach (var templateManagerCharacter in _templateManagerCharacterList)
         {
             SkillGridListVm.Add(new TemplateManagerSkillGridVM(templateManagerCharacter, OnSaveTemplate));
         }
-        
+
         _currentSkillGridVM = SkillGridListVm[0]; //TODO a changer
-        _templateListVM = new TemplateListVM(_templateManagerCharacterList, OnTemplateCharacterSelectedChange, OnCreateNewTemplate);
+        _templateListVM = new TemplateListVM(_templateManagerCharacterList, OnTemplateCharacterSelectedChange,
+            OnCreateNewTemplate);
 
         _cancelLbl = "Annuler";
         _doneLbl = "Valider";
@@ -56,13 +58,87 @@ public class TemplateManagerVM : ViewModel
 
     public void ExecuteCancel()
     {
-        //TODO
-        Close();
+        var index = 0;
+        bool unSavedTemplate = false;
+        foreach (var listItemVm in _templateListVM.ListItemVM)
+        {
+            if (listItemVm._templateManagerCharacter.GetIsFromNewCreatedTemplate() ||
+                SkillGridListVm[index].TemplateCharacter.HasUnsavedChanges())
+            {
+                unSavedTemplate = true;
+                break;
+            }
+
+            index++;
+        }
+
+        if (unSavedTemplate)
+        {
+            var inquiry = new InquiryData(
+                titleText: "There is some unsaved template",
+                text: "Are you sure you want to continue?",
+                isAffirmativeOptionShown: true,
+                isNegativeOptionShown: true,
+                affirmativeText: "Continue",
+                negativeText: "Cancel",
+                affirmativeAction: Close,
+                negativeAction: InformationManager.HideInquiry
+            );
+            InformationManager.ShowInquiry(inquiry);
+        }
+        else
+        {
+            Close();
+        }
     }
 
     public void ExecuteDone()
     {
-        //TODO
+        _currentSkillGridVM.ExecuteSaveTemplate();
+        Close();
+    }
+
+    public void ExecuteReset()
+    {
+        foreach (var skillGridVm in SkillGridListVm)
+        {
+            if (skillGridVm.TemplateCharacter.GetIsFromNewCreatedTemplate())
+            {
+                var result =
+                    _templateListVM._templateManagerCharacterList.Find(obj =>
+                        obj.Equals(skillGridVm.TemplateCharacter));
+                _templateListVM._templateManagerCharacterList.Remove(result);
+                continue;
+            }
+
+            if (skillGridVm.TemplateCharacter.HasUnsavedChanges())
+            {
+                var dto = skillGridVm.TemplateCharacter.SavedStateSnapshot;
+                foreach (var skill in CharacterUtils.GetSkillsWithWarSails())
+                {
+                    skillGridVm.TemplateCharacter.SetImportantSkill(skill, false);
+                    var skillVmIndex = skillGridVm.SkillsVM.FindIndex(obj => obj.SkillId.Equals(skill.StringId));
+                    skillGridVm.SkillsVM[skillVmIndex].IsImportantSkill = false;
+                }
+
+                skillGridVm.TemplateCharacter.ClearAllPerks();
+                dto.ApplyToModel(skillGridVm.TemplateCharacter);
+                foreach (var importantSkillId in dto.ImportantSkillIdList)
+                {
+                    var skillVmIndex = skillGridVm.SkillsVM.FindIndex(obj => obj.SkillId.Equals(importantSkillId));
+                    skillGridVm.SkillsVM[skillVmIndex].IsImportantSkill = true;
+                }
+
+                foreach (var skillsVM in skillGridVm.SkillsVM)
+                {
+                    skillsVM.RefreshSkillPerksState();
+                }
+            }
+        }
+
+        _templateListVM.RefreshTemplateList(0);
+        _currentSkillGridVM = SkillGridListVm[0];
+        OnPropertyChanged("TemplateSkillGridVM");
     }
 
     private void Close()
@@ -103,7 +179,7 @@ public class TemplateManagerVM : ViewModel
         OnPropertyChanged(nameof(TemplateListVM));
         OnPropertyChanged(nameof(TemplateSkillGridVM));
     }
-    
+
     [DataSourceProperty]
     public string CancelLbl
     {
@@ -135,10 +211,7 @@ public class TemplateManagerVM : ViewModel
     [DataSourceProperty]
     public TemplateManagerSkillGridVM TemplateSkillGridVM
     {
-        get
-        {
-            return _currentSkillGridVM;
-        }
+        get { return _currentSkillGridVM; }
         set
         {
             if (_currentSkillGridVM != value)
@@ -152,9 +225,6 @@ public class TemplateManagerVM : ViewModel
     [DataSourceProperty]
     public TemplateListVM TemplateListVM
     {
-        get
-        {
-            return _templateListVM;
-        }
+        get { return _templateListVM; }
     }
 }

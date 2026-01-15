@@ -78,6 +78,7 @@ public class TemplateSaveManager
             template.CreateNewTemplate();
             templateManagerCharacterList.Add(template);
             dto.ApplyToModel(template);
+            template.UpdateSavedStateSnapshot();
         }
 
         return templateManagerCharacterList;
