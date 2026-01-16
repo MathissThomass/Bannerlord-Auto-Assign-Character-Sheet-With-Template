@@ -94,7 +94,10 @@ public class TemplateManagerVM : ViewModel
 
     public void ExecuteDone()
     {
-        _currentSkillGridVM.ExecuteSaveTemplate();
+        foreach (var skillGridVm in SkillGridListVm)
+        {
+            skillGridVm.ExecuteSaveTemplate();
+        }
         Close();
     }
 
