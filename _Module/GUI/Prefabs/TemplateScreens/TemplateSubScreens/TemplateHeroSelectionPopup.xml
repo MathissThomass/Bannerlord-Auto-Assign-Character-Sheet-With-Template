@@ -1,0 +1,77 @@
+<Prefab>
+    <Constants>
+    </Constants>
+    <VisualDefinitions>
+    </VisualDefinitions>
+    <Parameters>
+        <Parameter Name="PopupDataSource" DefaultValue="" />
+    </Parameters>
+
+    <Window>
+        <Widget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren">
+            <Children>
+
+                <!-- Navigation scope pour le popup -->
+                <NavigationForcedScopeCollectionTargeter CollectionParent="..\." />
+                <NavigationScopeTargeter ScopeID="TemplateHeroSelectionScope" ScopeParent="..\Background" ScopeMovements="Horizontal" AlternateScopeMovements="Vertical" AlternateMovementStepSize="7" />
+
+                <!-- Fond du popup -->
+                <Widget Id="Background" DataSource="*PopupDataSource" WidthSizePolicy="Fixed" HeightSizePolicy="CoverChildren" SuggestedWidth="450" MaxHeight="500" HorizontalAlignment="Left" VerticalAlignment="Top" Sprite="governor_popup_9" ExtendLeft="13" ExtendTop="5" ExtendRight="13" ExtendBottom="14">
+                    <Children>
+
+                        <!-- Titre -->
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="40" HorizontalAlignment="Center" VerticalAlignment="Top" Brush="Recruitment.Popup.Title.Text" Brush.FontSize="28" Text="Assign Hero" MarginTop="10" />
+
+                        <!-- Scrollable grid 2 colonnes -->
+                        <ScrollablePanel Id="Scroll" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" SuggestedHeight="420" MarginLeft="12" MarginRight="12" MarginTop="50" AutoHideScrollBars="true" ClipRect="ClipRect" InnerPanel="ClipRect\InnerList" VerticalScrollbar="..\ScrollbarParent\VerticalScrollbar">
+                            <Children>
+
+                                <Widget Id="ClipRect" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MaxHeight="440" ClipContents="true">
+                                    <Children>
+
+                                        <NavigatableGridWidget Id="InnerList" DataSource="{HeroItemList}" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="0" MarginRight="0" MarginTop="0" MarginBottom="0" DefaultCellWidth="140" DefaultCellHeight="120" ColumnCount="3" LayoutImp.VerticalLayoutMethod="TopToBottom" StepSize="10">
+                                            <ItemTemplate>
+
+                                                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" MarginLeft="5" MarginRight="5" StackLayout.LayoutMethod="VerticalBottomToTop" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                                    <Children>
+
+                                                        <ButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="117" SuggestedHeight="83" MarginTop="5" MarginBottom="5" Brush="TownManagement.GovernorPopup.Governor.Background" Command.Click="ExecuteToggleHero" UpdateChildrenStates="true" IsEnabled="@IsEnabled" IsSelected="@IsSelected">
+                                                            <Children>
+                                                                <ImageIdentifierWidget DataSource="{Visual}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" ImageId="@Id" TextureProviderName="@TextureProviderName" />
+                                                                <HintWidget DataSource="{HeroHint}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+                                                                <BrushWidget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="TownManagement.GovernorPopup.GoldFrame" />
+                                                            </Children>
+                                                        </ButtonWidget>
+                                                        <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="117" SuggestedHeight="30" HorizontalAlignment="Center" Text="@NameText" Brush="TownManagement.GovernorPopup.Name.Text" />
+
+                                                    </Children>
+                                                </ListPanel>
+
+                                            </ItemTemplate>
+                                        </NavigatableGridWidget>
+
+                                    </Children>
+                                </Widget>
+
+                            </Children>
+                        </ScrollablePanel>
+
+                        <!-- Scrollbar parent -->
+                        <DimensionSyncWidget Id="ScrollbarParent" DoNotAcceptEvents="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" DimensionToSync="HorizontalAndVertical" WidgetToCopyHeightFrom="..\Scroll" PaddingAmount="10" ScrollbarParent="..\." >
+                            <Children>
+                                <ScrollbarWidget Id="VerticalScrollbar" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="8" HorizontalAlignment="Right" VerticalAlignment="Center" MarginTop="24" MarginBottom="15" AlignmentAxis="Vertical" Handle="VerticalScrollbarHandle" MaxValue="100" MinValue="0" >
+                                    <Children>
+                                        <ImageWidget WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="4" HorizontalAlignment="Center" Brush="TownManagement.Scrollbar.VerticalLine" />
+                                        <ImageWidget Id="VerticalScrollbarHandle" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedHeight="10" SuggestedWidth="8" HorizontalAlignment="Center" Brush="TownManagement.Scrollbar.Handle" />
+                                    </Children>
+                                </ScrollbarWidget>
+                            </Children>
+                        </DimensionSyncWidget>
+
+                    </Children>
+                </Widget>
+
+            </Children>
+        </Widget>
+    </Window>
+</Prefab>

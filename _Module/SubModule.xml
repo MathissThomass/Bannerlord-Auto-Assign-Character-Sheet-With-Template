@@ -17,6 +17,7 @@
     <DependedModule Id="Sandbox" DependentVersion="$gameversion$" />
     <DependedModule Id="StoryMode" DependentVersion="$gameversion$" />
     <DependedModule Id="CustomBattle" DependentVersion="$gameversion$" />
+    <DependedModule Id="NavalDLC" DependentVersion="1.1.1" />
   </DependedModules>
   <!-- Community Dependency Metadata -->
   <!-- https://github.com/BUTR/Bannerlord.BLSE#community-dependency-metadata -->
@@ -29,6 +30,7 @@
     <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="$gameversion$.*" />
     <DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="$gameversion$.*" />
     <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="$gameversion$.*" />
+    <DependedModuleMetadata id="NavalDLC" order="LoadBeforeThis" version="1.1.1.*" />
   </DependedModuleMetadatas>
   <SubModules>
     <SubModule>
@@ -46,7 +48,7 @@
     <SubModule>
       <Name value="$modulename$" />
       <DLLName value="$moduleid$.$gameversion$.dll" />
-      <SubModuleClassType value="$moduleid$.SubModule" />
+      <SubModuleClassType value="$moduleid$.Main" />
       <Tags />
     </SubModule>
   </SubModules>
