@@ -18,6 +18,7 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     private TemplateManagerState _templateManagerState;
     private SpriteCategory _clanCategory;
     private SpriteCategory _navalCategory;
+    private SpriteCategory _townManagementCategory;
 
     /*protected override void OnInitialize()
     {
@@ -86,8 +87,10 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
         
         _clanCategory = spriteData.SpriteCategories["ui_clan"];
         _navalCategory = spriteData.SpriteCategories["ui_naval_character_developer"];
+        _townManagementCategory = spriteData.SpriteCategories["ui_town_management"];
         _clanCategory.Load(resourceContext, uIResourceDepot);
         _navalCategory.Load(resourceContext, uIResourceDepot);
+        _townManagementCategory.Load(resourceContext, uIResourceDepot);
         
         _layer = new GauntletLayer("TemplateManagerLayer", 11, true);
 

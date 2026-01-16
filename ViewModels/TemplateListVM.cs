@@ -16,6 +16,8 @@ public class TemplateListVM : ViewModel
     TemplateListItemVM _currentTemplateListItemVM;
     Action<TemplateManagerCharacter, int> _onTemplateSelectedChanged;
     private Action<TemplateManagerCharacter> _onCreateNewTemplate;
+    private TemplateHeroSelectionPopupVM _heroSelectionPopupVm;
+    private bool _isHeroListOpen;
 
     public TemplateListVM(List<TemplateManagerCharacter> templateManagerCharacterList,
         Action<TemplateManagerCharacter, int> onTemplateSelectedChanged,
@@ -25,6 +27,8 @@ public class TemplateListVM : ViewModel
         _listItemVm = new MBBindingList<TemplateListItemVM>();
         _onTemplateSelectedChanged = onTemplateSelectedChanged;
         _onCreateNewTemplate = onCreateNewTemplate;
+        _heroSelectionPopupVm = new TemplateHeroSelectionPopupVM();
+        _isHeroListOpen = false;
         RefreshTemplateList(0); // TODO change to the one selected if hero had a temlplate
     }
 
@@ -40,6 +44,11 @@ public class TemplateListVM : ViewModel
         {
             ListItemVM[inspectedIndex].IsInspected = true;
             _currentTemplateListItemVM = ListItemVM[inspectedIndex];
+        }
+
+        if (IsHeroListOpen)
+        {
+            _heroSelectionPopupVm.OpenForTemplate(_currentTemplateListItemVM._templateManagerCharacter, _templateManagerCharacterList);
         }
 
         OnPropertyChanged("ListItemVM");
@@ -105,7 +114,18 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteOpenHeroListToAssign()
     {
-        //TODO
+        _isHeroListOpen = !_isHeroListOpen;
+        OnPropertyChanged("IsHeroListOpen");
+        OnPropertyChanged("HeroListButtonBrushStringId");
+        if (_isHeroListOpen)
+        {
+            var currentTemplate = _currentTemplateListItemVM._templateManagerCharacter;
+            _heroSelectionPopupVm.OpenForTemplate(currentTemplate, _templateManagerCharacterList);
+        }
+        else
+        {
+            _heroSelectionPopupVm.Close();
+        }
     }
 
     private void OnEnterNameAfter(string newName)
@@ -133,6 +153,7 @@ public class TemplateListVM : ViewModel
             CurrentTemplateItemVM = templateListItemVm;
             int index = _listItemVm.IndexOf(templateListItemVm);
             _onTemplateSelectedChanged(CurrentTemplateItemVM._templateManagerCharacter, index);
+            _heroSelectionPopupVm.OpenForTemplate(templateListItemVm._templateManagerCharacter, _templateManagerCharacterList);
         }
     }
 
@@ -192,6 +213,40 @@ public class TemplateListVM : ViewModel
             {
                 _currentTemplateListItemVM = value;
                 OnPropertyChangedWithValue(value, "CurrentTemplateItemVM");
+            }
+        }
+    }
+    
+    [DataSourceProperty]
+    public string HeroListButtonBrushStringId
+    {
+        get { return _isHeroListOpen ? "ButtonBrush1" : "ButtonBrush2"; }
+    }
+
+    [DataSourceProperty]
+    public bool IsHeroListOpen
+    {
+        get { return _isHeroListOpen; }
+        set
+        {
+            if (value != _isHeroListOpen)
+            {
+                _isHeroListOpen = value;
+                OnPropertyChangedWithValue(value, "IsHeroListOpen");
+            }
+        }
+    }
+    
+    [DataSourceProperty]
+    public TemplateHeroSelectionPopupVM HeroSelectionPopupVm
+    {
+        get { return _heroSelectionPopupVm; }
+        set
+        {
+            if (value != _heroSelectionPopupVm)
+            {
+                _heroSelectionPopupVm = value;
+                OnPropertyChangedWithValue(value, "HeroSelectionPopupVm");
             }
         }
     }

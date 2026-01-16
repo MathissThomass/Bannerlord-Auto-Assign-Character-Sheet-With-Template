@@ -6,146 +6,162 @@
 
 
     <Window>
-        <ListPanel HeightSizePolicy="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="900"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top" UpdateChildrenStates="true" MarginLeft="15" MarginTop="125"
-                   MarginBottom="50" StackLayout.LayoutMethod="VerticalBottomToTop">
+        <Widget HeightSizePolicy="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="1275"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top">
             <Children>
-                <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="40"
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Center" Text="Template list" MarginLeft="10"/>
-
-                <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="4" MarginBottom="10"
-                        MarginTop="5" Sprite="Clan\divider_mid"/>
-
-                <!-- 4 buttons panel, Delete Current, Create New, Duplicate and Assign to hero -->
-                <ListPanel HeightSizePolicy="CoverChildren" WidthSizePolicy="CoverChildren"
-                           HorizontalAlignment="Center" VerticalAlignment="Center"
-                           MarginBottom="20" StackLayout.LayoutMethod="HorizontalLeftToRight"
-                           UpdateChildrenStates="true">
+                <ListPanel HeightSizePolicy="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="700" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" UpdateChildrenStates="true" MarginLeft="15" MarginTop="125"
+                           MarginBottom="50" StackLayout.LayoutMethod="VerticalBottomToTop">
                     <Children>
-                        <ButtonWidget Id="DeleteCurrent" DoNotPassEventsToChildren="true"
-                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
-                                      SuggestedWidth="180" SuggestedHeight="40"
-                                      Brush="ButtonBrush2" MarginRight="30"
-                                      Command.Click="ExecuteDeleteCurrent">
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="40"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Center" Text="Template list" MarginLeft="10"/>
+
+                        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="4" MarginBottom="10"
+                                MarginTop="5" Sprite="Clan\divider_mid"/>
+
+                        <!-- 5 buttons panel, Delete Current, Create New, Duplicate, Rename and Assign to hero -->
+                        <ListPanel HeightSizePolicy="CoverChildren" WidthSizePolicy="CoverChildren"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   MarginBottom="20" StackLayout.LayoutMethod="VerticalBottomToTop"
+                                   UpdateChildrenStates="true">
                             <Children>
-                                <RichTextWidget WidthSizePolicy="StretchToParent"
-                                                HeightSizePolicy="StretchToParent"
-                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Delete current"/>
+                                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" HorizontalAlignment="Center" MarginBottom="8">
+                                    <Children>
+                                        <ButtonWidget Id="DeleteCurrent" DoNotPassEventsToChildren="true"
+                                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                                      SuggestedWidth="180" SuggestedHeight="40"
+                                                      Brush="ButtonBrush2" MarginRight="30"
+                                                      Command.Click="ExecuteDeleteCurrent">
+                                            <Children>
+                                                <RichTextWidget WidthSizePolicy="StretchToParent"
+                                                                HeightSizePolicy="StretchToParent"
+                                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                                Text="Delete current"/>
+                                            </Children>
+                                        </ButtonWidget>
+
+                                        <ButtonWidget Id="CreateNew" DoNotPassEventsToChildren="true"
+                                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                                      SuggestedWidth="180" SuggestedHeight="40"
+                                                      Brush="ButtonBrush2" MarginRight="30"
+                                                      Command.Click="ExecuteCreateNew">
+                                            <Children>
+                                                <RichTextWidget WidthSizePolicy="StretchToParent"
+                                                                HeightSizePolicy="StretchToParent"
+                                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                                Text="Create New"/>
+                                            </Children>
+                                        </ButtonWidget>
+
+                                        <ButtonWidget Id="DuplicateCurrentTemplate" DoNotPassEventsToChildren="true"
+                                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                                      SuggestedWidth="180" SuggestedHeight="40"
+                                                      Brush="ButtonBrush2" MarginRight="30"
+                                                      Command.Click="ExecuteDuplicateCurrentTemplate">
+                                            <Children>
+                                                <RichTextWidget WidthSizePolicy="StretchToParent"
+                                                                HeightSizePolicy="StretchToParent"
+                                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                                Text="Duplicate current template"/>
+                                            </Children>
+                                        </ButtonWidget>
+                                    </Children>
+                                </ListPanel>
+
+                                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" StackLayout.LayoutMethod="HorizontalLeftToRight" HorizontalAlignment="Center">
+                                    <Children>
+                                        <ButtonWidget Id="RenameCurrentTemplate" DoNotPassEventsToChildren="true"
+                                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                                      SuggestedWidth="180" SuggestedHeight="40"
+                                                      Brush="ButtonBrush2" MarginRight="30"
+                                                      Command.Click="ExecuteRenameCurrentTemplate">
+                                            <Children>
+                                                <RichTextWidget WidthSizePolicy="StretchToParent"
+                                                                HeightSizePolicy="StretchToParent"
+                                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                                Text="Rename current template"/>
+                                            </Children>
+                                        </ButtonWidget>
+
+                                        <ButtonWidget Id="AssignToHero" DoNotPassEventsToChildren="true"
+                                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                                                      SuggestedWidth="180" SuggestedHeight="40"
+                                                      Brush="@HeroListButtonBrushStringId" MarginRight="30"
+                                                      Command.Click="ExecuteOpenHeroListToAssign">
+                                            <Children>
+                                                <RichTextWidget WidthSizePolicy="StretchToParent"
+                                                                HeightSizePolicy="StretchToParent"
+                                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
+                                                                Text="Assign to hero"/>
+                                            </Children>
+                                        </ButtonWidget>
+                                    </Children>
+                                </ListPanel>
                             </Children>
-                        </ButtonWidget>
+                        </ListPanel>
 
-                        <ButtonWidget Id="CreateNew" DoNotPassEventsToChildren="true"
-                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
-                                      SuggestedWidth="180" SuggestedHeight="40"
-                                      Brush="ButtonBrush2" MarginRight="30"
-                                      Command.Click="ExecuteCreateNew">
+                        <!--Saved Template list -->
+                        <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent">
                             <Children>
-                                <RichTextWidget WidthSizePolicy="StretchToParent"
-                                                HeightSizePolicy="StretchToParent"
-                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Create New"/>
-                            </Children>
-                        </ButtonWidget>
-
-                        <ButtonWidget Id="DuplicateCurrentTemplate" DoNotPassEventsToChildren="true"
-                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
-                                      SuggestedWidth="180" SuggestedHeight="40"
-                                      Brush="ButtonBrush2" MarginRight="30"
-                                      Command.Click="ExecuteDuplicateCurrentTemplate">
-                            <Children>
-                                <RichTextWidget WidthSizePolicy="StretchToParent"
-                                                HeightSizePolicy="StretchToParent"
-                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Duplicate current template"/>
-                            </Children>
-                        </ButtonWidget>
-
-                        <ButtonWidget Id="RenameCurrentTemplate" DoNotPassEventsToChildren="true"
-                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
-                                      SuggestedWidth="180" SuggestedHeight="40"
-                                      Brush="ButtonBrush2" MarginRight="30"
-                                      Command.Click="ExecuteRenameCurrentTemplate">
-                            <Children>
-                                <RichTextWidget WidthSizePolicy="StretchToParent"
-                                                HeightSizePolicy="StretchToParent"
-                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Rename current template"/>
-                            </Children>
-                        </ButtonWidget>
-
-                        <ButtonWidget Id="AssignToHero" DoNotPassEventsToChildren="true"
-                                      WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
-                                      SuggestedWidth="180" SuggestedHeight="40"
-                                      Brush="ButtonBrush2" MarginRight="30"
-                                      Command.Click="ExecuteOpenHeroListToAssign">
-                            <Children>
-                                <RichTextWidget WidthSizePolicy="StretchToParent"
-                                                HeightSizePolicy="StretchToParent"
-                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Assign to hero"/>
-                            </Children>
-                        </ButtonWidget>
-                    </Children>
-                </ListPanel>
-
-                <!--Saved Template list -->
-                <ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent">
-                    <Children>
-                        <ScrollablePanel Id="TemplateElementsScrollablePanel"
-                                         WidthSizePolicy="StretchToParent"
-                                         HeightSizePolicy="StretchToParent"
-                                         MarginLeft="3"
-                                         AutoHideScrollBars="true"
-                                         ClipRect="TemplateElementsRect"
-                                         InnerPanel="TemplateElementsRect\TemplateElementsListPanel"
-                                         MouseScrollAxis="Vertical"
-                                         VerticalScrollbar="..\TemplateElementsScrollbar\Scrollbar">
-
-                            <Children>
-
-                                <NavigationScopeTargeter ScopeID="TemplateMembersScope"
-                                                         ScopeParent="..\TemplateElementsRect"
-                                                         ScopeMovements="Vertical"
-                                                         IsDefaultNavigationScope="true"
-                                                         DoNotAutoNavigateAfterSort="true"/>
-
-                                <Widget Id="TemplateElementsRect"
-                                        WidthSizePolicy="StretchToParent"
-                                        HeightSizePolicy="StretchToParent"
-                                        ClipContents="true">
+                                <ScrollablePanel Id="TemplateElementsScrollablePanel"
+                                                 WidthSizePolicy="StretchToParent"
+                                                 HeightSizePolicy="StretchToParent"
+                                                 MarginLeft="3"
+                                                 AutoHideScrollBars="true"
+                                                 ClipRect="TemplateElementsRect"
+                                                 InnerPanel="TemplateElementsRect\TemplateElementsListPanel"
+                                                 MouseScrollAxis="Vertical"
+                                                 VerticalScrollbar="..\TemplateElementsScrollbar\Scrollbar">
 
                                     <Children>
 
-                                        <NavigatableListPanel Id="TemplateElementsListPanel"
-                                                              DataSource="{ListItemVM}"
-                                                              WidthSizePolicy="StretchToParent"
-                                                              HeightSizePolicy="CoverChildren"
-                                                              StackLayout.LayoutMethod="VerticalBottomToTop"
-                                                              UpdateChildrenStates="true"
-                                                              MinIndex="0"
-                                                              StepSize="1000">
-                                            <ItemTemplate>
-                                                <TemplateListItem/>
-                                            </ItemTemplate>
-                                        </NavigatableListPanel>
+                                        <NavigationScopeTargeter ScopeID="TemplateMembersScope"
+                                                                 ScopeParent="..\TemplateElementsRect"
+                                                                 ScopeMovements="Vertical"
+                                                                 IsDefaultNavigationScope="true"
+                                                                 DoNotAutoNavigateAfterSort="true"/>
+
+                                        <Widget Id="TemplateElementsRect"
+                                                WidthSizePolicy="StretchToParent"
+                                                HeightSizePolicy="StretchToParent"
+                                                ClipContents="true">
+
+                                            <Children>
+
+                                                <NavigatableListPanel Id="TemplateElementsListPanel"
+                                                                      DataSource="{ListItemVM}"
+                                                                      WidthSizePolicy="StretchToParent"
+                                                                      HeightSizePolicy="CoverChildren"
+                                                                      StackLayout.LayoutMethod="VerticalBottomToTop"
+                                                                      UpdateChildrenStates="true"
+                                                                      MinIndex="0"
+                                                                      StepSize="1000">
+                                                    <ItemTemplate>
+                                                        <TemplateListItem/>
+                                                    </ItemTemplate>
+                                                </NavigatableListPanel>
+
+                                            </Children>
+                                        </Widget>
 
                                     </Children>
-                                </Widget>
-
+                                </ScrollablePanel>
+                                <Standard.VerticalScrollbar Id="TemplateElementsScrollbar"
+                                                            HeightSizePolicy="StretchToParent"
+                                                            HorizontalAlignment="Right"
+                                                            VerticalAlignment="Top"
+                                                            MarginLeft="2"
+                                                            MarginRight="2"/>
                             </Children>
-                        </ScrollablePanel>
-                        <Standard.VerticalScrollbar Id="TemplateElementsScrollbar"
-                                                    HeightSizePolicy="StretchToParent"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    MarginLeft="2"
-                                                    MarginRight="2"/>
+                        </ListPanel>
                     </Children>
                 </ListPanel>
+
+                <TemplateHeroSelectionPopup Parameter.PopupDataSource="{HeroSelectionPopupVm}" IsVisible="@IsHeroListOpen" HorizontalAlignment="Right" VerticalAlignment="Center" />
+
             </Children>
-        </ListPanel>
+        </Widget>
     </Window>
 </Prefab>
