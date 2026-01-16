@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoAssignCharacterSheetWithTemplate.Utils;
+using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.Core;
@@ -14,6 +15,8 @@ public class TemplateManagerCharacter
     public List<TemplateManagerCharacterSkill> SkillList { get; set; }
     public List<TemplateManagerCharacterPerk> PerkList { get; set; }
     public List<Hero> HeroList { get; set; }
+    private bool _isFromNewCreatedTemplate;
+    public TemplateCharacterDto SavedStateSnapshot { get; private set; }
 
 
     public TemplateManagerCharacter()
@@ -22,6 +25,7 @@ public class TemplateManagerCharacter
         SkillList = new List<TemplateManagerCharacterSkill>();
         PerkList = new List<TemplateManagerCharacterPerk>();
         HeroList = new List<Hero>();
+        _isFromNewCreatedTemplate = false;
     }
 
 
@@ -130,5 +134,33 @@ public class TemplateManagerCharacter
             var skillEntry = new TemplateManagerCharacterSkill(pid, false);
             SkillList.Add(skillEntry);
         }
+    }
+    
+    public bool GetIsFromNewCreatedTemplate()
+    {
+        return _isFromNewCreatedTemplate;
+    }
+
+    public void SetIsFromNewCreatedTemplate(bool newValue)
+    {
+        _isFromNewCreatedTemplate = newValue;
+    }
+
+    public void UpdateSavedStateSnapshot()
+    {
+        SavedStateSnapshot = TemplateCharacterDto.FromModel(this);
+    }
+    
+    public bool HasUnsavedChanges()
+    {
+        if (SavedStateSnapshot == null)
+            return true;
+
+        var currentDto = TemplateCharacterDto.FromModel(this);
+        
+        string savedJson = JsonConvert.SerializeObject(SavedStateSnapshot);
+        string currentJson = JsonConvert.SerializeObject(currentDto);
+
+        return savedJson != currentJson;
     }
 }

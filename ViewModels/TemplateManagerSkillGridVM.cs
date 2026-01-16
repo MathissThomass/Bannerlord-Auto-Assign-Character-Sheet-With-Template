@@ -1,8 +1,8 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using System;
+using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
-using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -10,16 +10,19 @@ public class TemplateManagerSkillGridVM : ViewModel
 {
     MBBindingList<TemplateManagerSkillVM> _skillsVM;
 
-    private TemplateManagerCharacter _templateCharacter;
+    public TemplateManagerCharacter TemplateCharacter;
 
     private TemplateManagerSkillVM _currentSkillVM;
 
     private bool _isImportantSkillToggleOn;
+    
+    Action<TemplateManagerCharacter> _onSaveTemplate;
 
-    public TemplateManagerSkillGridVM(TemplateManagerCharacter templateCharacter)
+    public TemplateManagerSkillGridVM(TemplateManagerCharacter templateCharacter, Action<TemplateManagerCharacter> onSaveTemplate)
     {
-        _templateCharacter = templateCharacter;
+        TemplateCharacter = templateCharacter;
         _skillsVM = new MBBindingList<TemplateManagerSkillVM>();
+        _onSaveTemplate = onSaveTemplate;
         RefreshHeroSkills();
     }
 
@@ -59,13 +62,13 @@ public class TemplateManagerSkillGridVM : ViewModel
 
     private void ExecuteClearSkillPerks()
     {
-        _templateCharacter.ClearPerkSkill(_currentSkillVM.Skill);
+        TemplateCharacter.ClearPerkSkill(_currentSkillVM.Skill);
         _currentSkillVM.RefreshSkillPerksState();
     }
 
     private void ExecuteClearAllPerks()
     {
-        _templateCharacter.ClearAllPerks();
+        TemplateCharacter.ClearAllPerks();
         foreach (var skillsVM in _skillsVM)
         {
             skillsVM.RefreshSkillPerksState();
@@ -78,22 +81,42 @@ public class TemplateManagerSkillGridVM : ViewModel
         OnPropertyChanged("IsImportantButtonBrushStringId");
     }
 
-    private void ExecuteSaveTemplate()
+    public void ExecuteSaveTemplate()
     {
-        InformationManager.ShowTextInquiry(new TextInquiryData(new TextObject("Enter the template name").ToString(),
-            new TextObject("Can only save up to 15").ToString(),
-            true, true, GameTexts.FindText("str_done", null).ToString(),
-            GameTexts.FindText("str_cancel", null).ToString(), OnEnterNameAfter, InformationManager.HideInquiry,
-            false));
+        if (!TemplateCharacter.GetIsFromNewCreatedTemplate())
+        {
+            SaveTemplate();
+        }
+        else
+        {
+            var textInquiry = new TextInquiryData(
+                titleText: "Enter the template name",
+                text: "Template name :",
+                isAffirmativeOptionShown: true,
+                isNegativeOptionShown: true,
+                affirmativeText: GameTexts.FindText("str_done", null).ToString(),
+                negativeText: GameTexts.FindText("str_cancel", null).ToString(),
+                affirmativeAction: OnEnterNameAfter,
+                negativeAction: InformationManager.HideInquiry,
+                textCondition: TemplateSaveManager.CheckIfNameExists
+            );
+            InformationManager.ShowTextInquiry(textInquiry);
+        }
     }
 
     private void OnEnterNameAfter(string saveName)
     {
-        _templateCharacter.Name = saveName;
-        var data = TemplateCharacterDto.FromModel(_templateCharacter);
-        TemplateSaveManager.SaveTemplate(data);
+        TemplateCharacter.Name = saveName;
+        SaveTemplate();
     }
 
+    private void SaveTemplate()
+    {
+        var data = TemplateCharacterDto.FromModel(TemplateCharacter);
+        TemplateSaveManager.SaveTemplate(data);
+        TemplateCharacter.UpdateSavedStateSnapshot();
+        _onSaveTemplate(TemplateCharacter);
+    }
 
     private void RefreshHeroSkills()
     {
@@ -101,15 +124,15 @@ public class TemplateManagerSkillGridVM : ViewModel
         var skillObjectList = CharacterUtils.GetSkillsWithWarSails();
         foreach (SkillObject current in skillObjectList)
         {
-            SkillsVM.Add(new TemplateManagerSkillVM(current, _templateCharacter,
-                _templateCharacter.GetImportantSkill(current), OnSkillSelectedChange));
+            SkillsVM.Add(new TemplateManagerSkillVM(current, TemplateCharacter,
+                TemplateCharacter.GetImportantSkill(current), OnSkillSelectedChange));
         }
 
         SkillsVM[0].IsInspected = true;
         _currentSkillVM = SkillsVM[0];
         OnPropertyChanged("CurrentSkill");
     }
-
+    
     public void OnSkillSelectedChange(TemplateManagerSkillVM templateManagerSkillVM)
     {
         if (templateManagerSkillVM != _currentSkillVM)
@@ -121,7 +144,7 @@ public class TemplateManagerSkillGridVM : ViewModel
         if (_isImportantSkillToggleOn)
         {
             _currentSkillVM.IsImportantSkill = !_currentSkillVM.IsImportantSkill;
-            _templateCharacter.SetImportantSkill(_currentSkillVM.Skill, _currentSkillVM.IsImportantSkill);
+            TemplateCharacter.SetImportantSkill(_currentSkillVM.Skill, _currentSkillVM.IsImportantSkill);
         }
     }
 }

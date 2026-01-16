@@ -11,12 +11,14 @@ public class TemplateListItemVM : ViewModel
     private string _templateName;
     Action<TemplateListItemVM> _onTemplateSelection;
     private MBBindingList<TemplateSkillOverviewVM> _skillsVm;
+    public TemplateManagerCharacter _templateManagerCharacter;
 
     public TemplateListItemVM(TemplateManagerCharacter templateManagerCharacter,
         Action<TemplateListItemVM> onTemplateSelection)
     {
         _isInspected = false;
         _templateName = templateManagerCharacter.Name;
+        _templateManagerCharacter = templateManagerCharacter;
         _onTemplateSelection = onTemplateSelection;
         _skillsVm = new MBBindingList<TemplateSkillOverviewVM>();
         RefreshSkillsVm(templateManagerCharacter);

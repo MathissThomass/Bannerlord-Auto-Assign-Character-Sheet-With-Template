@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using AutoAssignCharacterSheetWithTemplate.Models;
@@ -41,7 +43,6 @@ public class TemplateSaveManager
             var saveFolder = GetSavesFolder();
             string fileName = SanitizeFileName(data.Name) + ".json";
             string path = Path.Combine(saveFolder, fileName);
-            TM_Log.Info($"Saving {path}");
             string json = JsonConvert.SerializeObject(data, Formatting.Indented);
             File.WriteAllText(path, json);
         }
@@ -64,4 +65,88 @@ public class TemplateSaveManager
         if (!Directory.Exists(folder)) return null;
         return Directory.GetFiles(folder, "*.json");
     }
+
+    public static List<TemplateManagerCharacter> LoadSavedTemplatesList()
+    {
+        var templateManagerCharacterList = new List<TemplateManagerCharacter>();
+        var files = ListSavedTemplates();
+        if (files == null) return templateManagerCharacterList;
+        foreach (var file in files)
+        {
+            var dto = LoadTemplateFromFile(file);
+            TemplateManagerCharacter template = new TemplateManagerCharacter();
+            template.CreateNewTemplate();
+            templateManagerCharacterList.Add(template);
+            dto.ApplyToModel(template);
+            template.UpdateSavedStateSnapshot();
+        }
+
+        return templateManagerCharacterList;
+    }
+
+    public static void DeleteTemplate(string fileName)
+    {
+        try
+        {
+            var folder = GetSavesFolder();
+            var path = Path.Combine(folder, fileName + ".json");
+
+            if (!File.Exists(path))
+            {
+                TM_Log.Error($"File {path} doesn't exist");
+            }
+
+            File.Delete(path);
+        }
+        catch (IOException e)
+        {
+            TM_Log.Error($"IO error while deleting template: {e.Message}");
+        }
+    }
+
+    public static Tuple<bool, string> CheckIfNameExists(string fileName)
+    {
+        var folder = GetSavesFolder();
+        var path = Path.Combine(folder, fileName + ".json");
+        if (!File.Exists(path))
+        {
+            return new Tuple<bool, string>(true, "");
+        }
+        return new Tuple<bool, string>(false, "Name already exists");
+    }
+
+    public static void RenameSaveFile(string newFileName, string oldFileName)
+    {
+        var folder = GetSavesFolder();
+
+        string oldPath = Path.Combine(folder, SanitizeFileName(oldFileName) + ".json");
+        string newPath = Path.Combine(folder, SanitizeFileName(newFileName) + ".json");
+
+        if (!File.Exists(oldPath))
+        {
+            TM_Log.Error($"Le fichier à renommer n'existe pas : {oldPath}");
+            return;
+        }
+
+        try
+        {
+            string json = File.ReadAllText(oldPath);
+
+            var data = JsonConvert.DeserializeObject<TemplateCharacterDto>(json);
+
+            data.Name = newFileName;
+
+            string newJson = JsonConvert.SerializeObject(data, Formatting.Indented);
+
+            File.WriteAllText(newPath, newJson);
+
+            File.Delete(oldPath);
+
+        }
+        catch (Exception e)
+        {
+            TM_Log.Error($"Erreur lors du renommage : {e.Message}");
+        }
+    }
+
 }

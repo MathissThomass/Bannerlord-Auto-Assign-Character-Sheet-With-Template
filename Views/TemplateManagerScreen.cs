@@ -18,6 +18,7 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     private TemplateManagerState _templateManagerState;
     private SpriteCategory _clanCategory;
     private SpriteCategory _navalCategory;
+    private SpriteCategory _townManagementCategory;
 
     /*protected override void OnInitialize()
     {
@@ -36,15 +37,17 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     protected override void OnFrameTick(float dt)
     {
         base.OnFrameTick(dt);
-        if (Input.IsKeyReleased(InputKey.Escape))
+
+        //caused to exit even with an Inquiry open and the inquiry exit before this is executed so can't just close the inquiry with this code active
+        /*if (Input.IsKeyReleased(InputKey.Escape))
         {
             _dataSource.ExecuteCancel();
         }
 
-        if (TaleWorlds.InputSystem.Input.IsKeyReleased(InputKey.Enter))
+        if (Input.IsKeyReleased(InputKey.Enter) || Input.IsKeyReleased(InputKey.NumpadEnter))
         {
             _dataSource.ExecuteDone();
-        }
+        }*/
     }
 
     /*
@@ -84,8 +87,10 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
         
         _clanCategory = spriteData.SpriteCategories["ui_clan"];
         _navalCategory = spriteData.SpriteCategories["ui_naval_character_developer"];
+        _townManagementCategory = spriteData.SpriteCategories["ui_town_management"];
         _clanCategory.Load(resourceContext, uIResourceDepot);
         _navalCategory.Load(resourceContext, uIResourceDepot);
+        _townManagementCategory.Load(resourceContext, uIResourceDepot);
         
         _layer = new GauntletLayer("TemplateManagerLayer", 11, true);
 
@@ -94,7 +99,6 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
         _layer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
         ScreenManager.TrySetFocus(_layer);
         AddLayer(_layer);
-        
     }
 
     void IGameStateListener.OnDeactivate()
