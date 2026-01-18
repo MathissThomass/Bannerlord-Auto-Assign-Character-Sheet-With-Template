@@ -1,4 +1,6 @@
-﻿using AutoAssignCharacterSheetWithTemplate.State;
+﻿using AutoAssignCharacterSheetWithTemplate.Data;
+using AutoAssignCharacterSheetWithTemplate.State;
+using AutoAssignCharacterSheetWithTemplate.Utils;
 using AutoAssignCharacterSheetWithTemplate.ViewModels;
 using TaleWorlds.Core;
 using TaleWorlds.Engine.GauntletUI;
@@ -19,6 +21,7 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     private SpriteCategory _clanCategory;
     private SpriteCategory _navalCategory;
     private SpriteCategory _townManagementCategory;
+    public TemplateStore TemplateStore { get; set; }
 
     /*protected override void OnInitialize()
     {
@@ -106,6 +109,7 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
         _layer.InputRestrictions.ResetInputRestrictions();
         RemoveLayer(_layer);
         _dataSource = null;
+        TemplateStore.Instance.LoadFromDisk();
     }
 
     void IGameStateListener.OnInitialize()

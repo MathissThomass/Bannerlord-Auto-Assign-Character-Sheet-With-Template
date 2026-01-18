@@ -48,7 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behaviors\" />
     <Folder Include="_Module\GUI\Brushes\" />
   </ItemGroup>
   
