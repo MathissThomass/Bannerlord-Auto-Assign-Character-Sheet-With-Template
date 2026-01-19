@@ -74,7 +74,43 @@ public class AutoAssign
     
     public static void AutoAssignAttributPoint(Hero hero, TemplateManagerCharacter template)
     {
+        while(hero.HeroDeveloper.UnspentAttributePoints > 0)
+        {
+            var weightList = new Dictionary<SkillObject, double>();
 
+            
+            foreach (var templateSkill in template.SkillList)
+            {
+                var skill = templateSkill.Skill;
+                if (!hero.HeroDeveloper.CanAddFocusToSkill(skill))
+                {
+                    weightList[skill] = 0;
+                    continue;
+                }
+
+                var isImportant = templateSkill.IsSkillImportant;
+                var learningRate = CharacterUtils.GetLearningRate(hero, skill);
+
+                var baseWeight = 1.0 / learningRate;
+                var mult = isImportant ? ImportantMultiplier : 1.0;
+                if (SpecialSkillIds.Contains(skill.StringId))
+                {
+                    mult = isImportant ? SpecialSkillImportantMultiplier : SpecialSkillNotImportantMultiplier;
+                }
+                double weight = baseWeight * mult;
+
+                weightList[skill] = weight;
+            }
+            
+            var pick = CharacterUtils.PickAttributByWeight(weightList);
+
+            if (pick == null)
+            {
+                break;
+            }
+            
+            hero.HeroDeveloper.AddAttribute(pick, 1);
+        }
     }
 
     public static void AutoAssignPerkPoint(Hero hero, TemplateManagerCharacter template, SkillObject skill,

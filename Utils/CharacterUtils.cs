@@ -79,7 +79,7 @@ public class CharacterUtils
     {
         SkillObject? bestSkill = null;
         var bestWeight = double.NegativeInfinity;
-        
+
         foreach (var kv in weights)
         {
             var skill = kv.Key;
@@ -88,7 +88,100 @@ public class CharacterUtils
             bestWeight = weight;
             bestSkill = skill;
         }
-        
+
         return bestWeight <= 0 ? null : bestSkill;
     }
+
+    public static CharacterAttribute? PickAttributByWeight(Dictionary<SkillObject, double> weights)
+    {
+        var sumByAttribute = new Dictionary<CharacterAttribute, double>();
+
+        foreach (var kv in weights)
+        {
+            var skill = kv.Key;
+            var weight = kv.Value;
+
+            var attributes = GetAttributesFromSkill(skill).ToList();
+            if (attributes.Count == 0)
+                continue;
+
+            var distributedWeight = weight / attributes.Count;
+
+            foreach (var attr in attributes)
+            {
+                if (sumByAttribute.ContainsKey(attr))
+                    sumByAttribute[attr] += distributedWeight;
+                else
+                    sumByAttribute[attr] = distributedWeight;
+            }
+        }
+
+        if (sumByAttribute.Count == 0)
+            return null;
+
+        return sumByAttribute
+            .OrderByDescending(kv => kv.Value)
+            .First().Key;
+    }
+
+    public static CharacterAttribute? GetAttributeFromSkill(SkillObject skill)
+    {
+        return skill != null && SkillToAttribute.TryGetValue(skill, out var attribute)
+            ? attribute
+            : null;
+    }
+
+    private static readonly Dictionary<SkillObject, CharacterAttribute> SkillToAttribute =
+        new Dictionary<SkillObject, CharacterAttribute>
+        {
+            { DefaultSkills.OneHanded, DefaultCharacterAttributes.Vigor },
+            { DefaultSkills.TwoHanded, DefaultCharacterAttributes.Vigor },
+            { DefaultSkills.Polearm, DefaultCharacterAttributes.Vigor },
+
+            { DefaultSkills.Bow, DefaultCharacterAttributes.Control },
+            { DefaultSkills.Crossbow, DefaultCharacterAttributes.Control },
+            { DefaultSkills.Throwing, DefaultCharacterAttributes.Control },
+
+            { DefaultSkills.Riding, DefaultCharacterAttributes.Endurance },
+            { DefaultSkills.Athletics, DefaultCharacterAttributes.Endurance },
+            { DefaultSkills.Crafting, DefaultCharacterAttributes.Endurance },
+
+            { DefaultSkills.Scouting, DefaultCharacterAttributes.Cunning },
+            { DefaultSkills.Tactics, DefaultCharacterAttributes.Cunning },
+            { DefaultSkills.Roguery, DefaultCharacterAttributes.Cunning },
+
+            { DefaultSkills.Charm, DefaultCharacterAttributes.Social },
+            { DefaultSkills.Leadership, DefaultCharacterAttributes.Social },
+            { DefaultSkills.Trade, DefaultCharacterAttributes.Social },
+
+            { DefaultSkills.Steward, DefaultCharacterAttributes.Intelligence },
+            { DefaultSkills.Medicine, DefaultCharacterAttributes.Intelligence },
+            { DefaultSkills.Engineering, DefaultCharacterAttributes.Intelligence },
+        };
+
+    public static IEnumerable<CharacterAttribute> GetAttributesFromSkill(SkillObject skill)
+    {
+        switch (skill.StringId)
+        {
+            case "Mariner":
+                yield return DefaultCharacterAttributes.Endurance;
+                yield return DefaultCharacterAttributes.Cunning;
+                yield break;
+
+            case "Boatswain":
+                yield return DefaultCharacterAttributes.Social;
+                yield return DefaultCharacterAttributes.Control;
+                yield break;
+
+            case "Shipmaster":
+                yield return DefaultCharacterAttributes.Vigor;
+                yield return DefaultCharacterAttributes.Intelligence;
+                yield break;
+        }
+
+        var attr = GetAttributeFromSkill(skill);
+        if (attr != null)
+            yield return attr;
+    }
+
 }
