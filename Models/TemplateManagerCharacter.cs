@@ -131,7 +131,7 @@ public class TemplateManagerCharacter
         foreach (var skill in listSkills)
         {
             var pid = skill.StringId ?? skill.GetType().Name;
-            var skillEntry = new TemplateManagerCharacterSkill(pid, false);
+            var skillEntry = new TemplateManagerCharacterSkill(skill, pid, false);
             SkillList.Add(skillEntry);
         }
     }

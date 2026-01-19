@@ -9,34 +9,12 @@ public class AutoAssignBehavior : CampaignBehaviorBase
 {
     public override void RegisterEvents()
     {
-        CampaignEvents.HeroLevelledUp.AddNonSerializedListener(this, OnHeroLevelledUp);
         CampaignEvents.HeroGainedSkill.AddNonSerializedListener(this, OnHeroGainedSkill);
         CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, OnGameLoadFinished);
     }
 
     public override void SyncData(IDataStore dataStore)
     {
-    }
-
-    private static void OnHeroLevelledUp(Hero hero, bool shouldNotify = true)
-    {
-        if (hero.Clan == Clan.PlayerClan)
-        {
-            var templateList = TemplateStore.Instance.TemplateList;
-            var heroTemplate = CharacterUtils.FindHeroAssignedTemplate(hero, templateList);
-
-            if (heroTemplate == null)
-            {
-                return;
-            }
-
-            if (hero.HeroDeveloper.UnspentAttributePoints > 0)
-            {
-                AutoAssign.AutoAssignAttributPoint(hero, heroTemplate);
-            }
-
-            AutoAssign.AutoAssignFocusPoint(hero, heroTemplate);
-        }
     }
 
     private static void OnHeroGainedSkill(Hero hero, SkillObject skill, int change = 1, bool shouldNotify = true)
@@ -59,6 +37,16 @@ public class AutoAssignBehavior : CampaignBehaviorBase
             {
                 var initialLvl = skillLvl - change;
                 AutoAssign.AutoAssignPerkPoint(hero, heroTemplate, skill, initialLvl);
+            }
+            
+            if (hero.HeroDeveloper.UnspentAttributePoints > 0)
+            {
+                AutoAssign.AutoAssignAttributPoint(hero, heroTemplate);
+            }
+
+            if (hero.HeroDeveloper.UnspentFocusPoints > 0)
+            {
+                AutoAssign.AutoAssignFocusPoint(hero, heroTemplate);
             }
         }
     }

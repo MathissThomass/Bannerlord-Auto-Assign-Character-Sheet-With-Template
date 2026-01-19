@@ -61,4 +61,34 @@ public class CharacterUtils
 
         return null;
     }
+
+    public static float GetLearningRate(Hero hero, SkillObject skill, int additionalFocus = 0)
+    {
+        var currentFocusLevel = hero.HeroDeveloper.GetFocus(skill);
+        var characterAttributes = hero.CharacterAttributes;
+
+        var skillLvl = hero.GetSkillValue(skill);
+        var learningRate = Campaign.Current.Models.CharacterDevelopmentModel
+            .CalculateLearningRate(characterAttributes, currentFocusLevel + additionalFocus, skillLvl, skill, false)
+            .ResultNumber;
+
+        return learningRate;
+    }
+
+    public static SkillObject? PickSkillByWeight(Dictionary<SkillObject, double> weights)
+    {
+        SkillObject? bestSkill = null;
+        var bestWeight = double.NegativeInfinity;
+        
+        foreach (var kv in weights)
+        {
+            var skill = kv.Key;
+            var weight = kv.Value;
+            if (!(weight > bestWeight)) continue;
+            bestWeight = weight;
+            bestSkill = skill;
+        }
+        
+        return bestWeight <= 0 ? null : bestSkill;
+    }
 }
