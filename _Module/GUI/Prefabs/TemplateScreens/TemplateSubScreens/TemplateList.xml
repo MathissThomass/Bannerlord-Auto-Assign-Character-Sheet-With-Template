@@ -12,7 +12,7 @@
             <Children>
                 <ListPanel HeightSizePolicy="StretchToParent" WidthSizePolicy="Fixed" SuggestedWidth="700" HorizontalAlignment="Left"
                            VerticalAlignment="Top" UpdateChildrenStates="true" MarginLeft="15" MarginTop="125"
-                           MarginBottom="50" StackLayout.LayoutMethod="VerticalBottomToTop">
+                           MarginBottom="50" StackLayout.LayoutMethod="VerticalTopToBottom">
                     <Children>
                         <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="40"
                                     VerticalAlignment="Top"
