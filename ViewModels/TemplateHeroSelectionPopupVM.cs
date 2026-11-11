@@ -4,6 +4,7 @@ using AutoAssignCharacterSheetWithTemplate.Models;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -67,4 +68,7 @@ public class TemplateHeroSelectionPopupVM : ViewModel
             }
         }
     }
+    
+    [DataSourceProperty]
+    public string AssignToHeroText { get; set; } = new TextObject("{=assign_to_hero_text}Assign to hero").ToString();
 }

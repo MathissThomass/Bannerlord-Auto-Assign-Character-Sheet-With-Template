@@ -16,8 +16,8 @@
                                        MarginLeft="2">
                     <Children>
                         <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="20"
-                                    Text="Important Skill" VerticalAlignment="Center" Brush="Encyclopedia.Skill.Text"
-                                    Brush.FontSize="20" Brush.FontColor="#FCB066FF" IsVisible="@IsImportantSkill"/>
+                                    Text="@IsImportantSkillText" VerticalAlignment="Center" Brush="Encyclopedia.Skill.Text"
+                                    Brush.FontSize="20" Brush.FontColor="#FCB066FF" IsVisible="@ImportantSkill"/>
 
                         <HintWidget DataSource="{Hint}" HeightSizePolicy="StretchToParent"
                                     WidthSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint"

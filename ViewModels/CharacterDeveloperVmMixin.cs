@@ -3,6 +3,8 @@ using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.ViewModels;
 using TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -29,4 +31,7 @@ internal class CharacterDeveloperVmMixin : BaseViewModelMixin<CharacterDeveloper
         var gameState = GameStateManager.Current.CreateState<TemplateManagerState>();
         GameStateManager.Current.PushState(gameState, 0);
     }
+    
+    [DataSourceProperty]
+    public string TitleTemplateText { get; set; } = new TextObject("{=templates_title}Templates").ToString();
 }

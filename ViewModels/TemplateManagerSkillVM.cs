@@ -5,6 +5,7 @@ using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -309,4 +310,7 @@ public class TemplateManagerSkillVM : ViewModel
     {
         return _template.GetPerkValue(perk);
     }
+    
+    [DataSourceProperty]
+    public string ImportantSkillText { get; set; } = new TextObject("{=important_skill_text}Priority skill").ToString();
 }

@@ -20,7 +20,7 @@
                     <Children>
 
                         <!-- Titre -->
-                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="40" HorizontalAlignment="Center" VerticalAlignment="Top" Brush="Recruitment.Popup.Title.Text" Brush.FontSize="28" Text="Assign Hero" MarginTop="10" />
+                        <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="40" HorizontalAlignment="Center" VerticalAlignment="Top" Brush="Recruitment.Popup.Title.Text" Brush.FontSize="28" Text="@AssignToHeroText" MarginTop="10" />
 
                         <!-- Scrollable grid 2 colonnes -->
                         <ScrollablePanel Id="Scroll" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" SuggestedHeight="420" MarginLeft="12" MarginRight="12" MarginTop="50" AutoHideScrollBars="true" ClipRect="ClipRect" InnerPanel="ClipRect\InnerList" VerticalScrollbar="..\ScrollbarParent\VerticalScrollbar">

@@ -370,7 +370,7 @@
                 Brush="ButtonBrush1"
                 Command.Click="ExecuteOpenTemplateManager">
           <Children>
-            <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="OverlayPopup.ButtonText" Brush.FontSize="20" Text="Templates"/>
+            <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="OverlayPopup.ButtonText" Brush.FontSize="20" Text="@TitleTemplateText"/>
           </Children>
         </ButtonWidget>
 

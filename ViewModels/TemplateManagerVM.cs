@@ -4,6 +4,7 @@ using AutoAssignCharacterSheetWithTemplate.State;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -51,8 +52,8 @@ public class TemplateManagerVM : ViewModel
         _templateListVM = new TemplateListVM(_templateManagerCharacterList, OnTemplateCharacterSelectedChange,
             OnCreateNewTemplate);
 
-        _cancelLbl = "Annuler";
-        _doneLbl = "Valider";
+        _cancelLbl = new TextObject("{=3CpNUnVl}Cancel").ToString();
+        _doneLbl = new TextObject("{=WiNRdfsm}Done").ToString();
         RefreshValues();
     }
 
@@ -98,6 +99,7 @@ public class TemplateManagerVM : ViewModel
         {
             skillGridVm.ExecuteSaveTemplate();
         }
+
         Close();
     }
 
@@ -230,4 +232,7 @@ public class TemplateManagerVM : ViewModel
     {
         get { return _templateListVM; }
     }
+
+    [DataSourceProperty]
+    public string TitleTemplateText { get; set; } = new TextObject("{=templates_title}Templates").ToString();
 }

@@ -6,6 +6,8 @@ using AutoAssignCharacterSheetWithTemplate.Utils;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
+using TaleWorlds.TwoDimension;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -56,13 +58,18 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteDeleteCurrent()
     {
+        string DeleteTemplateInquiryTitle = new TextObject("{=delete_template_inquiry_title}Delete current template").ToString();
+        string DeleteTemplateInquiryText = new TextObject("{=delete_template_inquiry_text}Are you sure you want to delete the current template?").ToString();
+        string DeleteBtnText = new TextObject("{=deletekey}Delete").ToString();
+        string CancelBtnText = new TextObject("{=3CpNUnVl}Cancel").ToString();
+        
         var inquiry = new InquiryData(
-            titleText: "Delete current template",
-            text: "Are you sure you want to delete the current template?",
+            titleText: DeleteTemplateInquiryTitle,
+            text: DeleteTemplateInquiryText,
             isAffirmativeOptionShown: true,
             isNegativeOptionShown: true,
-            affirmativeText: "Delete",
-            negativeText: "Cancel",
+            affirmativeText: DeleteBtnText,
+            negativeText: CancelBtnText,
             affirmativeAction: OnDeleteCurrentTemplate,
             negativeAction: InformationManager.HideInquiry
         );
@@ -71,9 +78,11 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteCreateNew()
     {
+        string newCreatedTemplateText = new TextObject("{=new_created_template_text}New created template").ToString();
+        
         var newTemplate = new TemplateManagerCharacter
         {
-            Name = GenerateUniqueName("New created template")
+            Name = GenerateUniqueName(newCreatedTemplateText)
         };
         newTemplate.CreateNewTemplate();
         _templateManagerCharacterList.Add(newTemplate);
@@ -97,9 +106,12 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteRenameCurrentTemplate()
     {
+        string NewTemplateInquiryTitle = new TextObject("{=new_template_inquiry_title}Enter the template name").ToString();
+        string NewTemplateInquiryText = new TextObject("{=new_template_inquiry_text}New template name :").ToString();
+            
         var textInquiry = new TextInquiryData(
-            titleText: "Enter the template name",
-            text: "New template name :",
+            titleText: NewTemplateInquiryTitle,
+            text: NewTemplateInquiryText,
             isAffirmativeOptionShown: true,
             isNegativeOptionShown: true,
             affirmativeText: GameTexts.FindText("str_done", null).ToString(),
@@ -250,4 +262,23 @@ public class TemplateListVM : ViewModel
             }
         }
     }
+    
+    [DataSourceProperty]
+    public string TemplateListTitle { get; set; } = new TextObject("{=template_list_title}Template list").ToString();
+    
+    [DataSourceProperty]
+    public string DeleteCurrentText { get; set; } = new TextObject("{=delete_current_text}Delete current").ToString();
+    
+    [DataSourceProperty]
+    public string CreateNewText { get; set; } = new TextObject("{=create_new_text}Create New").ToString();
+    
+    [DataSourceProperty]
+    public string DuplicateCurrentTemplateText { get; set; } = new TextObject("{=duplicate_current_template_text}Duplicate current template").ToString();
+    
+    [DataSourceProperty]
+    public string RenameCurrentTemplateText { get; set; } = new TextObject("{=rename_current_template_text}Rename current template").ToString();
+    
+    [DataSourceProperty]
+    public string AssignToHeroText { get; set; } = new TextObject("{=assign_to_hero_text}Assign to hero").ToString();
+    
 }
