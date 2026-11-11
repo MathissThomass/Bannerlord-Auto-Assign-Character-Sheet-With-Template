@@ -1,7 +1,4 @@
-﻿using System;
-using AutoAssignCharacterSheetWithTemplate.Behaviors;
-using AutoAssignCharacterSheetWithTemplate.Data;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+﻿using AutoAssignCharacterSheetWithTemplate.Behaviors;
 using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;

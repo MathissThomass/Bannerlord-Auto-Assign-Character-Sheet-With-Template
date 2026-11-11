@@ -1,6 +1,7 @@
 ﻿using AutoAssignCharacterSheetWithTemplate.Data;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
 
 namespace AutoAssignCharacterSheetWithTemplate.Behaviors;
@@ -11,6 +12,7 @@ public class AutoAssignBehavior : CampaignBehaviorBase
     {
         CampaignEvents.HeroGainedSkill.AddNonSerializedListener(this, OnHeroGainedSkill);
         CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, OnGameLoadFinished);
+        CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, OnHeroDied);
     }
 
     public override void SyncData(IDataStore dataStore)
@@ -54,5 +56,14 @@ public class AutoAssignBehavior : CampaignBehaviorBase
     private static void OnGameLoadFinished()
     {
         TemplateStore.Instance.LoadFromDisk();
+    }
+
+    private static void OnHeroDied(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail deathDetail, bool showNotification)
+    {
+        if (victim.Clan != Clan.PlayerClan)
+        {
+            return;
+        }
+        TemplateSaveManager.RemoveHeroFromTemplate(victim);
     }
 }
