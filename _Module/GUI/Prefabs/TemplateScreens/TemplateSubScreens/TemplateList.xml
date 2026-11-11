@@ -16,7 +16,7 @@
                     <Children>
                         <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="40"
                                     VerticalAlignment="Top"
-                                    HorizontalAlignment="Center" Text="Template list" MarginLeft="10"/>
+                                    HorizontalAlignment="Center" Text="@TemplateListTitle" MarginLeft="10"/>
 
                         <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="4" MarginBottom="10"
                                 MarginTop="5" Sprite="Clan\divider_mid"/>
@@ -38,7 +38,7 @@
                                                 <RichTextWidget WidthSizePolicy="StretchToParent"
                                                                 HeightSizePolicy="StretchToParent"
                                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                                Text="Delete current"/>
+                                                                Text="@DeleteCurrentText"/>
                                             </Children>
                                         </ButtonWidget>
 
@@ -51,7 +51,7 @@
                                                 <RichTextWidget WidthSizePolicy="StretchToParent"
                                                                 HeightSizePolicy="StretchToParent"
                                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                                Text="Create New"/>
+                                                                Text="@CreateNewText"/>
                                             </Children>
                                         </ButtonWidget>
 
@@ -64,7 +64,7 @@
                                                 <RichTextWidget WidthSizePolicy="StretchToParent"
                                                                 HeightSizePolicy="StretchToParent"
                                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                                Text="Duplicate current template"/>
+                                                                Text="@DuplicateCurrentTemplateText"/>
                                             </Children>
                                         </ButtonWidget>
                                     </Children>
@@ -81,7 +81,7 @@
                                                 <RichTextWidget WidthSizePolicy="StretchToParent"
                                                                 HeightSizePolicy="StretchToParent"
                                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                                Text="Rename current template"/>
+                                                                Text="@RenameCurrentTemplateText"/>
                                             </Children>
                                         </ButtonWidget>
 
@@ -94,7 +94,7 @@
                                                 <RichTextWidget WidthSizePolicy="StretchToParent"
                                                                 HeightSizePolicy="StretchToParent"
                                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                                Text="Assign to hero"/>
+                                                                Text="@AssignToHeroText"/>
                                             </Children>
                                         </ButtonWidget>
                                     </Children>

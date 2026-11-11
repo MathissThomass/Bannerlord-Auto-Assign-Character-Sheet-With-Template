@@ -31,7 +31,7 @@
                                       Command.Click="ExecuteSaveTemplate">
                             <Children>
                                 <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
-                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20" Text="Save"/>
+                                                Brush="OverlayPopup.ButtonText" Brush.FontSize="20" Text="@SaveText"/>
                             </Children>
                         </ButtonWidget>
 
@@ -43,7 +43,7 @@
                             <Children>
                                 <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Important skill"/>
+                                                Text="@ImportantSkillText"/>
                             </Children>
                         </ButtonWidget>
 
@@ -55,7 +55,7 @@
                             <Children>
                                 <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Clear all perks"/>
+                                                Text="@ClearAllPerksText"/>
                             </Children>
                         </ButtonWidget>
 
@@ -67,7 +67,7 @@
                             <Children>
                                 <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent"
                                                 Brush="OverlayPopup.ButtonText" Brush.FontSize="20"
-                                                Text="Clear skill perks"/>
+                                                Text="@ClearAllSkillPerkText"/>
                             </Children>
                         </ButtonWidget>
 

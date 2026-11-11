@@ -29,7 +29,7 @@
                     </Children>
                 </Widget>
 
-                <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="80" SuggestedHeight="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginLeft="82" MarginBottom="!ImportantSkill.MarginBottom" Brush="CharacterDeveloper.GridSkillLevel.Text" Text="Important skill" DoNotAcceptEvents="true" IsVisible="@IsImportantSkill"/>
+                <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="80" SuggestedHeight="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginLeft="82" MarginBottom="!ImportantSkill.MarginBottom" Brush="CharacterDeveloper.GridSkillLevel.Text" Text="@ImportantSkillText" DoNotAcceptEvents="true" IsVisible="@IsImportantSkill"/>
 
                 <ValueBasedVisibilityWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="33" SuggestedHeight="36" IndexToBeVisible="0" WatchType="BiggerThan" IndexToWatch="@NumOfUnopenedPerks" HorizontalAlignment="Right" VerticalAlignment="Top" PositionYOffset="-4" IsEnabled="false">
                     <Children>
