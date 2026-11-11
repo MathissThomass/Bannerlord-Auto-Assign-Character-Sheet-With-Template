@@ -1,0 +1,44 @@
+﻿<Prefab>
+    <Constants>
+    </Constants>
+    <VisualDefinitions>
+        <VisualDefinition Name="BottomMenu" DelayOnBegin="0.2" TransitionDuration="0.4">
+            <VisualState PositionYOffset="0" State="Default"/>
+        </VisualDefinition>
+    </VisualDefinitions>
+
+
+    <Window>
+        <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <Children>
+                <Standard.Background/>
+                <!--Top title-->
+                <Widget HeightSizePolicy="Fixed" SuggestedHeight="150" WidthSizePolicy="Fixed" SuggestedWidth="500"
+                        HorizontalAlignment="Center" Sprite="StdAssets\tabbar_popup" DoNotAcceptEvents="true">
+                    <Children>
+                        <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren"
+                                        VerticalAlignment="Center" Brush="Recruitment.Popup.Title.Text"
+                                        PositionYOffset="-25" Text="Template" Brush.FontSize="40"/>
+                    </Children>
+                </Widget>
+
+                <TemplateList DataSource="{TemplateListVM}" HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                              MarginBottom="30"/>
+                <TemplateSkillGrid DataSource="{TemplateSkillGridVM}" HorizontalAlignment="Right"
+                                   VerticalAlignment="Stretch" MarginBottom="30"/>
+
+                <Standard.TripleDialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center"
+                                                   VerticalAlignment="Bottom" PositionYOffset="100"
+                                                   Parameter.CancelButtonAction="ExecuteCancel"
+                                                   Parameter.CancelButtonText="@CancelLbl"
+                                                   Parameter.DoneButtonAction="ExecuteDone"
+                                                   Parameter.DoneButtonText="@DoneLbl"
+                                                   Parameter.ResetButtonAction="ExecuteReset"
+                                                   Parameter.ResetButtonHintDataSource="{ResetHint}"/>
+
+
+            </Children>
+        </Widget>
+    </Window>
+</Prefab>

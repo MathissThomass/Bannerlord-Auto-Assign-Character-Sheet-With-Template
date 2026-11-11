@@ -1,0 +1,15 @@
+﻿<Prefab>
+    <Constants>
+    </Constants>
+    <VisualDefinitions>
+    </VisualDefinitions>
+
+
+    <Window>
+        <Widget HeightSizePolicy="CoverChildren" WidthSizePolicy="Fixed" SuggestedWidth="500" HorizontalAlignment="Right" UpdateChildrenStates="true">
+            <Children>
+                <TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Text="TemplateHeroSelector"/>
+            </Children>
+        </Widget>
+    </Window>
+</Prefab>
