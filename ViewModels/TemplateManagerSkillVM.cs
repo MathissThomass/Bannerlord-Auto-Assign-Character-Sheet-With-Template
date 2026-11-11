@@ -284,13 +284,15 @@ public class TemplateManagerSkillVM : ViewModel
 
     private void RefreshAlternativePerkState(string perkStringId)
     {
+        if (string.IsNullOrEmpty(perkStringId)) return;
+        
         foreach (var perkVM in Perks)
         {
-            if (perkVM.Perk.AlternativePerk.StringId == perkStringId)
-            {
-                perkVM.RefreshState();
-                return;
-            }
+            if (perkVM?.Perk.AlternativePerk == null) continue;
+            if (string.IsNullOrEmpty(perkVM.Perk.AlternativePerk.StringId)) continue;
+            if (perkVM.Perk.AlternativePerk.StringId != perkStringId) continue;
+            perkVM.RefreshState();
+            return;
         }
     }
 

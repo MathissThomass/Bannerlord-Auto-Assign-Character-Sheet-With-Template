@@ -1,5 +1,8 @@
-﻿using Bannerlord.UIExtenderEx;
+﻿using AutoAssignCharacterSheetWithTemplate.Behaviors;
+using Bannerlord.UIExtenderEx;
 using HarmonyLib;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 
@@ -35,6 +38,22 @@ namespace AutoAssignCharacterSheetWithTemplate
         {
             base.OnBeforeInitialModuleScreenSetAsRoot();
 
+        }
+        
+        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
+        {
+            base.OnGameStart(game, gameStarterObject);
+
+            if (game.GameType is Campaign)
+            {
+                var starter = (CampaignGameStarter)gameStarterObject;
+                AddBehaviors(starter);
+            }
+        }
+
+        private static void AddBehaviors(CampaignGameStarter starter)
+        {
+            starter.AddBehavior(new AutoAssignBehavior());
         }
     }
 }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using AutoAssignCharacterSheetWithTemplate.Data;
 using AutoAssignCharacterSheetWithTemplate.Models;
 using Newtonsoft.Json;
+using TaleWorlds.CampaignSystem;
 using Path = System.IO.Path;
 
 namespace AutoAssignCharacterSheetWithTemplate.Utils;
@@ -146,6 +148,51 @@ public class TemplateSaveManager
         catch (Exception e)
         {
             TM_Log.Error($"Erreur lors du renommage : {e.Message}");
+        }
+    }
+
+    public static void RemoveHeroFromTemplate(Hero hero)
+    {
+        if (string.IsNullOrEmpty(hero.StringId))
+        {
+            return;
+        }
+
+        var files = ListSavedTemplates();
+        if (files == null)
+        {
+            return;
+        }
+
+        foreach (var file in files)
+        {
+            var dto = LoadTemplateFromFile(file);
+            if (dto.HeroIdList.Contains(hero.StringId))
+            {
+                continue;
+            }
+
+            dto.HeroIdList.Remove(hero.StringId);
+            SaveTemplate(dto);
+            RemoveHeroFromLoadedStore(hero);
+            return;
+        }
+
+    }
+
+    private static void RemoveHeroFromLoadedStore(Hero hero)
+    {
+        foreach (var template in TemplateStore.Instance.TemplateList)
+        {
+            int removed = template.HeroList.RemoveAll(assigned =>
+                assigned != null && assigned.StringId == hero.StringId);
+            if (removed <= 0)
+            {
+                continue;
+            }
+
+            template.UpdateSavedStateSnapshot();
+            return;
         }
     }
 
