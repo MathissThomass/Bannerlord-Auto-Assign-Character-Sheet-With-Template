@@ -21,7 +21,7 @@ public class CharacterDeveloperPatchInsertButton : Bannerlord.UIExtenderEx.Prefa
                                      SuggestedHeight="40"
                                      HorizontalAlignment="Right"
                                      VerticalAlignment="Top"
-                                     MarginLeft="30"
+                                     MarginRight="30"
                                      MarginTop="30"
                                      Brush="ButtonBrush1"
                                      Command.Click="ExecuteOpenTemplateManager">

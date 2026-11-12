@@ -18,17 +18,20 @@ public class TemplateListVM : ViewModel
     TemplateListItemVM _currentTemplateListItemVM;
     Action<TemplateManagerCharacter, int> _onTemplateSelectedChanged;
     private Action<TemplateManagerCharacter> _onCreateNewTemplate;
+    private Action<TemplateManagerCharacter> _onDeleteTemplate;
     private TemplateHeroSelectionPopupVM _heroSelectionPopupVm;
     private bool _isHeroListOpen;
 
     public TemplateListVM(List<TemplateManagerCharacter> templateManagerCharacterList,
         Action<TemplateManagerCharacter, int> onTemplateSelectedChanged,
-        Action<TemplateManagerCharacter> onCreateNewTemplate)
+        Action<TemplateManagerCharacter> onCreateNewTemplate,
+        Action<TemplateManagerCharacter> onDeleteTemplate)
     {
         _templateManagerCharacterList = templateManagerCharacterList;
         _listItemVm = new MBBindingList<TemplateListItemVM>();
         _onTemplateSelectedChanged = onTemplateSelectedChanged;
         _onCreateNewTemplate = onCreateNewTemplate;
+        _onDeleteTemplate = onDeleteTemplate;
         _heroSelectionPopupVm = new TemplateHeroSelectionPopupVM();
         _isHeroListOpen = false;
         RefreshTemplateList(0); // TODO change to the one selected if hero had a temlplate
@@ -171,14 +174,15 @@ public class TemplateListVM : ViewModel
 
     private void OnDeleteCurrentTemplate()
     {
-        if (!_currentTemplateListItemVM._templateManagerCharacter.GetIsFromNewCreatedTemplate())
-        {
-            TemplateSaveManager.DeleteTemplate(_currentTemplateListItemVM.TemplateName);
-        }
+        var deletedTemplate = _currentTemplateListItemVM._templateManagerCharacter;
+        TemplateSaveManager.DeleteTemplate(deletedTemplate.Name);
 
-        var result = _templateManagerCharacterList.Find(obj => obj.Name == _currentTemplateListItemVM.TemplateName);
-        _templateManagerCharacterList.Remove(result);
-        RefreshTemplateList(0);
+        _templateManagerCharacterList.Remove(deletedTemplate);
+        _onDeleteTemplate(deletedTemplate);
+        int indexToSelect = _templateManagerCharacterList.Count > 0
+            ? _templateManagerCharacterList.Count - 1
+            : 0;
+        RefreshTemplateList(indexToSelect);
     }
 
     private string GenerateUniqueName(string baseName)

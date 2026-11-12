@@ -50,7 +50,7 @@ public class TemplateManagerVM : ViewModel
 
         _currentSkillGridVM = SkillGridListVm[0]; //TODO a changer
         _templateListVM = new TemplateListVM(_templateManagerCharacterList, OnTemplateCharacterSelectedChange,
-            OnCreateNewTemplate);
+            OnCreateNewTemplate, OnDeleteTemplate);
 
         _cancelLbl = new TextObject("{=3CpNUnVl}Cancel").ToString();
         _doneLbl = new TextObject("{=WiNRdfsm}Done").ToString();
@@ -97,7 +97,11 @@ public class TemplateManagerVM : ViewModel
     {
         foreach (var skillGridVm in SkillGridListVm)
         {
-            skillGridVm.ExecuteSaveTemplate();
+            bool stillInList = _templateManagerCharacterList.Contains(skillGridVm.TemplateCharacter);
+            if (stillInList)
+            {
+                skillGridVm.SaveUsingCurrentName();
+            }
         }
 
         Close();
@@ -169,12 +173,41 @@ public class TemplateManagerVM : ViewModel
         OnPropertyChanged("TemplateSkillGridVM");
     }
 
+    private void OnDeleteTemplate(TemplateManagerCharacter deletedTemplate)
+    {
+        for (int i = 0; i < SkillGridListVm.Count; i++)
+        {
+            if (ReferenceEquals(SkillGridListVm[i].TemplateCharacter, deletedTemplate))
+            {
+                SkillGridListVm.RemoveAt(i);
+                break;
+            }
+        }
+
+        int lastIndex = _templateManagerCharacterList.Count - 1;
+        if (lastIndex < 0 || lastIndex >= SkillGridListVm.Count)
+        {
+            return;
+        }
+
+        _currentTemplate = _templateManagerCharacterList[lastIndex];
+        _currentSkillGridVM = SkillGridListVm[lastIndex];
+        _currentTemplateIndex = lastIndex;
+        OnPropertyChanged("TemplateSkillGridVM");
+    }
+
     private void OnSaveTemplate(TemplateManagerCharacter templateCharacter)
     {
         templateCharacter.SetIsFromNewCreatedTemplate(false);
+        int index = _templateManagerCharacterList.FindIndex(template => ReferenceEquals(template, templateCharacter));
+        if (index < 0)
+        {
+            return;
+        }
+
         _currentTemplate = templateCharacter;
-        _templateListVM._templateManagerCharacterList[_currentTemplateIndex] = templateCharacter;
-        _templateListVM.RefreshTemplateList(_currentTemplateIndex);
+        _currentTemplateIndex = index;
+        _templateListVM.RefreshTemplateList(index);
     }
 
     private void RefreshValues()

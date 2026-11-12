@@ -82,6 +82,11 @@ public class TemplateManagerSkillGridVM : ViewModel
         OnPropertyChanged("IsImportantButtonBrushStringId");
     }
 
+    public void SaveUsingCurrentName()
+    {
+        SaveTemplate();
+    }
+
     public void ExecuteSaveTemplate()
     {
         if (!TemplateCharacter.GetIsFromNewCreatedTemplate())

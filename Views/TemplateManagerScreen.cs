@@ -22,18 +22,11 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     private SpriteCategory _navalCategory;
     private SpriteCategory _townManagementCategory;
     public TemplateStore TemplateStore { get; set; }
-
-    /*protected override void OnInitialize()
-    {
-        base.OnInitialize();
-        LoadingWindow.EnableGlobalLoadingWindow();
-    }*/
+    
 
     public TemplateManagerScreen(TemplateManagerState state)
     {
-        /*
-        LoadingWindow.EnableGlobalLoadingWindow();
-        */
+
         _templateManagerState = state;
     }
 
@@ -52,35 +45,6 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
             _dataSource.ExecuteDone();
         }*/
     }
-
-    /*
-
-    public void OnExit()
-    {
-        Game.Current.GameStateManager.PopState(0);
-    }
-
-    protected override void OnDeactivate()
-    {
-        base.OnDeactivate();
-        if (_layer != null)
-        {
-            _layer.IsFocusLayer = false;
-            ScreenManager.TryLoseFocus(_layer);
-        }
-    }
-    
-    protected override void OnFinalize()
-    {
-        base.OnFinalize();
-        if (LoadingWindow.IsLoadingWindowActive)
-        {
-            LoadingWindow.DisableGlobalLoadingWindow();
-        }
-
-        _dataSource = null;
-        _layer = null;
-    }*/
 
     void IGameStateListener.OnActivate()
     {
