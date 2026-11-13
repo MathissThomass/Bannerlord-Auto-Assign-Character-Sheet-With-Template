@@ -19,5 +19,7 @@
         <string id="new_template_inquiry_text" text="Nom du nouveau modèle :" />
         <string id="delete_template_inquiry_title" text="Supprimer le modèle" />
         <string id="delete_template_inquiry_text" text="Êtes-vous sûr de vouloir supprimer ce modèle?" />
+        <string id="unsaved_inquiry_title" text="Il y a des modifications non enregistrées" />
+        <string id="unsaved_inquiry_text" text="Êtes-vous sûr de vouloir continuer?" />
     </strings>
 </base>

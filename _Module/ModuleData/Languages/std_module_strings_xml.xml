@@ -19,5 +19,7 @@
         <string id="new_template_inquiry_text" text="New template name :" />
         <string id="delete_template_inquiry_title" text="Delete current template" />
         <string id="delete_template_inquiry_text" text="Are you sure you want to delete the current template?" />
+        <string id="unsaved_inquiry_title" text="There is some unsaved template" />
+        <string id="unsaved_inquiry_text" text="Are you sure you want to continue?" />
     </strings>
 </base>

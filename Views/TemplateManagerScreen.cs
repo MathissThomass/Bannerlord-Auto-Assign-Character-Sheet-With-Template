@@ -1,4 +1,6 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Data;
+﻿using System.Collections.Generic;
+using AutoAssignCharacterSheetWithTemplate.Behaviors;
+using AutoAssignCharacterSheetWithTemplate.Data;
 using AutoAssignCharacterSheetWithTemplate.State;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using AutoAssignCharacterSheetWithTemplate.ViewModels;
@@ -70,10 +72,37 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
 
     void IGameStateListener.OnDeactivate()
     {
+        HashSet<string> heroesAssignedAtOpen = _dataSource?.HeroesAssignedAtOpen;
         _layer.InputRestrictions.ResetInputRestrictions();
         RemoveLayer(_layer);
         _dataSource = null;
         TemplateStore.Instance.LoadFromDisk();
+        CatchUpHeroesSavedDuringSession(heroesAssignedAtOpen);
+    }
+
+    private static void CatchUpHeroesSavedDuringSession(HashSet<string> heroesAssignedAtOpen)
+    {
+        var alreadyAssigned = heroesAssignedAtOpen ?? new HashSet<string>();
+        var processedHeroIds = new HashSet<string>();
+        foreach (var template in TemplateStore.Instance.TemplateList)
+        {
+            if (template?.HeroList == null)
+            {
+                continue;
+            }
+
+            foreach (var hero in template.HeroList)
+            {
+                if (hero == null || string.IsNullOrEmpty(hero.StringId) ||
+                    !processedHeroIds.Add(hero.StringId) ||
+                    alreadyAssigned.Contains(hero.StringId))
+                {
+                    continue;
+                }
+
+                AutoAssign.CatchUpAssignedHero(hero, template);
+            }
+        }
     }
 
     void IGameStateListener.OnInitialize()

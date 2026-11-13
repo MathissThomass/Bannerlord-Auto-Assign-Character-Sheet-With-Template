@@ -127,6 +127,34 @@ public class AutoAssign
         }
     }
 
+    public static void CatchUpAssignedHero(Hero hero, TemplateManagerCharacter template)
+    {
+        if (hero?.HeroDeveloper == null || template == null)
+        {
+            return;
+        }
+
+        foreach (var skill in CharacterUtils.GetSkillsWithWarSails())
+        {
+            if (skill == null)
+            {
+                continue;
+            }
+
+            AutoAssignPerkPoint(hero, template, skill, 0);
+        }
+
+        if (hero.HeroDeveloper.UnspentAttributePoints > 0)
+        {
+            AutoAssignAttributPoint(hero, template);
+        }
+
+        if (hero.HeroDeveloper.UnspentFocusPoints > 0)
+        {
+            AutoAssignFocusPoint(hero, template);
+        }
+    }
+
     public static void AutoAssignPerkPoint(Hero hero, TemplateManagerCharacter template, SkillObject skill,
         int initialLvl)
     {

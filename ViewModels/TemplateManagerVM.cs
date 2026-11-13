@@ -58,7 +58,32 @@ public class TemplateManagerVM : ViewModel
 
         _cancelLbl = new TextObject("{=3CpNUnVl}Cancel").ToString();
         _doneLbl = new TextObject("{=WiNRdfsm}Done").ToString();
+        HeroesAssignedAtOpen = CollectAssignedHeroIds(_templateManagerCharacterList);
         RefreshValues();
+    }
+
+    public HashSet<string> HeroesAssignedAtOpen { get; }
+
+    public static HashSet<string> CollectAssignedHeroIds(List<TemplateManagerCharacter> templates)
+    {
+        var heroIds = new HashSet<string>();
+        foreach (var template in templates)
+        {
+            if (template?.HeroList == null)
+            {
+                continue;
+            }
+
+            foreach (var hero in template.HeroList)
+            {
+                if (hero != null && !string.IsNullOrEmpty(hero.StringId))
+                {
+                    heroIds.Add(hero.StringId);
+                }
+            }
+        }
+
+        return heroIds;
     }
 
     public void ExecuteCancel()
@@ -79,9 +104,12 @@ public class TemplateManagerVM : ViewModel
 
         if (unSavedTemplate)
         {
+            string UnsavedInquiryTitle = new TextObject("{=unsaved_inquiry_title}There is some unsaved template").ToString();
+            string UnsavedInquiryText = new TextObject("{=unsaved_inquiry_text}Are you sure you want to continue?").ToString();
+            
             var inquiry = new InquiryData(
-                titleText: "There is some unsaved template",
-                text: "Are you sure you want to continue?",
+                titleText: UnsavedInquiryTitle,
+                text: UnsavedInquiryText,
                 isAffirmativeOptionShown: true,
                 isNegativeOptionShown: true,
                 affirmativeText: "Continue",
