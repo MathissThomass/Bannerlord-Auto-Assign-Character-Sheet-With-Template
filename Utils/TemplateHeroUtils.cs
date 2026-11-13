@@ -56,4 +56,32 @@ public static class TemplateHeroUtils
             }
             return false;
         }
+        
+        
+        public static int FindTemplateIndexForHero(List<TemplateManagerCharacter> templates, Hero? hero)
+        {
+            if (hero == null || string.IsNullOrEmpty(hero.StringId))
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < templates.Count; i++)
+            {
+                var heroList = templates[i].HeroList;
+                if (heroList == null)
+                {
+                    continue;
+                }
+
+                foreach (var assignedHero in heroList)
+                {
+                    if (assignedHero != null && assignedHero.StringId == hero.StringId)
+                    {
+                        return i;
+                    }
+                }
+            }
+
+            return 0;
+        }
     }

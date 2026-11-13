@@ -25,7 +25,8 @@ public class TemplateListVM : ViewModel
     public TemplateListVM(List<TemplateManagerCharacter> templateManagerCharacterList,
         Action<TemplateManagerCharacter, int> onTemplateSelectedChanged,
         Action<TemplateManagerCharacter> onCreateNewTemplate,
-        Action<TemplateManagerCharacter> onDeleteTemplate)
+        Action<TemplateManagerCharacter> onDeleteTemplate,
+        int initialIndex = 0)
     {
         _templateManagerCharacterList = templateManagerCharacterList;
         _listItemVm = new MBBindingList<TemplateListItemVM>();
@@ -34,7 +35,7 @@ public class TemplateListVM : ViewModel
         _onDeleteTemplate = onDeleteTemplate;
         _heroSelectionPopupVm = new TemplateHeroSelectionPopupVM();
         _isHeroListOpen = false;
-        RefreshTemplateList(0); // TODO change to the one selected if hero had a temlplate
+        RefreshTemplateList(initialIndex);
     }
 
     public void RefreshTemplateList(int inspectedIndex)

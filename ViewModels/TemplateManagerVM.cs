@@ -25,10 +25,13 @@ public class TemplateManagerVM : ViewModel
         templateManagerState.EditTemplate.CreateNewTemplate();
         _templateManagerCharacterList = new List<TemplateManagerCharacter>();
         _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
+        int selectedIndex = 0;
         if (_templateManagerCharacterList.Count > 0)
         {
-            _currentTemplate =
-                _templateManagerCharacterList[0]; //TODO if hero from characterdev have a template select this one
+            selectedIndex =
+                TemplateHeroUtils.FindTemplateIndexForHero(_templateManagerCharacterList,
+                    templateManagerState.SelectedHero);
+            _currentTemplate = _templateManagerCharacterList[selectedIndex];
         }
         else
         {
@@ -48,9 +51,10 @@ public class TemplateManagerVM : ViewModel
             SkillGridListVm.Add(new TemplateManagerSkillGridVM(templateManagerCharacter, OnSaveTemplate));
         }
 
-        _currentSkillGridVM = SkillGridListVm[0]; //TODO a changer
+        _currentTemplateIndex = selectedIndex;
+        _currentSkillGridVM = SkillGridListVm[selectedIndex];
         _templateListVM = new TemplateListVM(_templateManagerCharacterList, OnTemplateCharacterSelectedChange,
-            OnCreateNewTemplate, OnDeleteTemplate);
+            OnCreateNewTemplate, OnDeleteTemplate, selectedIndex);
 
         _cancelLbl = new TextObject("{=3CpNUnVl}Cancel").ToString();
         _doneLbl = new TextObject("{=WiNRdfsm}Done").ToString();

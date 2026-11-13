@@ -29,6 +29,7 @@ internal class CharacterDeveloperVmMixin : BaseViewModelMixin<CharacterDeveloper
     private void OpenTemplate()
     {
         var gameState = GameStateManager.Current.CreateState<TemplateManagerState>();
+        gameState.SelectedHero = _vm.CurrentCharacter?.Hero;
         GameStateManager.Current.PushState(gameState, 0);
     }
     
