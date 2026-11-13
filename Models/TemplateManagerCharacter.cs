@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+using HeroPathAutoBuildAssignment.Utils;
 using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.Core;
 
-namespace AutoAssignCharacterSheetWithTemplate.Models;
+namespace HeroPathAutoBuildAssignment.Models;
 
 public class TemplateManagerCharacter
 {

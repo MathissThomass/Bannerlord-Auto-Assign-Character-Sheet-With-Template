@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using AutoAssignCharacterSheetWithTemplate.Behaviors;
-using AutoAssignCharacterSheetWithTemplate.Data;
-using AutoAssignCharacterSheetWithTemplate.State;
-using AutoAssignCharacterSheetWithTemplate.Utils;
-using AutoAssignCharacterSheetWithTemplate.ViewModels;
+using HeroPathAutoBuildAssignment.Utils;
+using HeroPathAutoBuildAssignment.Behaviors;
+using HeroPathAutoBuildAssignment.Data;
+using HeroPathAutoBuildAssignment.State;
+using HeroPathAutoBuildAssignment.ViewModels;
 using TaleWorlds.Core;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.InputSystem;
@@ -12,7 +12,7 @@ using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 using TaleWorlds.TwoDimension;
 
-namespace AutoAssignCharacterSheetWithTemplate.Views;
+namespace HeroPathAutoBuildAssignment.Views;
 
 [GameStateScreen(typeof(TemplateManagerState))]
 public class TemplateManagerScreen : ScreenBase, IGameStateListener

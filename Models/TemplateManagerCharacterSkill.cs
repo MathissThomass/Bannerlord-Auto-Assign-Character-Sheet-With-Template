@@ -1,6 +1,6 @@
 ﻿using TaleWorlds.Core;
 
-namespace AutoAssignCharacterSheetWithTemplate.Models;
+namespace HeroPathAutoBuildAssignment.Models;
 
 public class TemplateManagerCharacterSkill
 {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using AutoAssignCharacterSheetWithTemplate.Models;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+using HeroPathAutoBuildAssignment.Utils;
+using HeroPathAutoBuildAssignment.Models;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
-namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
+namespace HeroPathAutoBuildAssignment.ViewModels;
 
 public class TemplateManagerSkillVM : ViewModel
 {

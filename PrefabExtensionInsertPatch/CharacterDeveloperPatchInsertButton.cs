@@ -1,7 +1,7 @@
 ﻿using Bannerlord.UIExtenderEx.Prefabs2;
 using Bannerlord.UIExtenderEx.Attributes;
 
-namespace AutoAssignCharacterSheetWithTemplate.PrefabExtensionInsertPatch;
+namespace HeroPathAutoBuildAssignment.PrefabExtensionInsertPatch;
 
 [PrefabExtension("CharacterDeveloper", "/Prefab/Window/Widget/Children")]
 public class CharacterDeveloperPatchInsertButton : Bannerlord.UIExtenderEx.Prefabs2.PrefabExtensionInsertPatch

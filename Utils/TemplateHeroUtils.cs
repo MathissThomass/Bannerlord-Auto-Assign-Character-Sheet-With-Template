@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoAssignCharacterSheetWithTemplate.Models;
+using HeroPathAutoBuildAssignment.Models;
 using TaleWorlds.CampaignSystem;
 
-namespace AutoAssignCharacterSheetWithTemplate.Utils;
+namespace HeroPathAutoBuildAssignment.Utils;
 
 public static class TemplateHeroUtils
     {

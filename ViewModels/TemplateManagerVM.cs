@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using AutoAssignCharacterSheetWithTemplate.Models;
-using AutoAssignCharacterSheetWithTemplate.State;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+using HeroPathAutoBuildAssignment.Models;
+using HeroPathAutoBuildAssignment.State;
+using HeroPathAutoBuildAssignment.Utils;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
-namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
+namespace HeroPathAutoBuildAssignment.ViewModels;
 
 public class TemplateManagerVM : ViewModel
 {
@@ -104,12 +104,12 @@ public class TemplateManagerVM : ViewModel
 
         if (unSavedTemplate)
         {
-            string UnsavedInquiryTitle = new TextObject("{=unsaved_inquiry_title}There is some unsaved template").ToString();
-            string UnsavedInquiryText = new TextObject("{=unsaved_inquiry_text}Are you sure you want to continue?").ToString();
+            string unsavedInquiryTitle = new TextObject("{=unsaved_inquiry_title}There is some unsaved template").ToString();
+            string unsavedInquiryText = new TextObject("{=unsaved_inquiry_text}Are you sure you want to continue?").ToString();
             
             var inquiry = new InquiryData(
-                titleText: UnsavedInquiryTitle,
-                text: UnsavedInquiryText,
+                titleText: unsavedInquiryTitle,
+                text: unsavedInquiryText,
                 isAffirmativeOptionShown: true,
                 isNegativeOptionShown: true,
                 affirmativeText: "Continue",

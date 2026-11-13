@@ -4,7 +4,7 @@ using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core.ViewModelCollection.ImageIdentifiers;
 using TaleWorlds.Library;
 
-namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
+namespace HeroPathAutoBuildAssignment.ViewModels;
 
 public class HeroSelectionItemVM : ViewModel
 {

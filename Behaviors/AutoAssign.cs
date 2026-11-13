@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoAssignCharacterSheetWithTemplate.Models;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+using HeroPathAutoBuildAssignment.Models;
+using HeroPathAutoBuildAssignment.Utils;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.Core;
 
-namespace AutoAssignCharacterSheetWithTemplate.Behaviors;
+namespace HeroPathAutoBuildAssignment.Behaviors;
 
 public class AutoAssign
 {

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoAssignCharacterSheetWithTemplate.Models;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+using HeroPathAutoBuildAssignment.Models;
+using HeroPathAutoBuildAssignment.Utils;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.TwoDimension;
 
-namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
+namespace HeroPathAutoBuildAssignment.ViewModels;
 
 public class TemplateListVM : ViewModel
 {
@@ -62,18 +62,18 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteDeleteCurrent()
     {
-        string DeleteTemplateInquiryTitle = new TextObject("{=delete_template_inquiry_title}Delete current template").ToString();
-        string DeleteTemplateInquiryText = new TextObject("{=delete_template_inquiry_text}Are you sure you want to delete the current template?").ToString();
-        string DeleteBtnText = new TextObject("{=deletekey}Delete").ToString();
-        string CancelBtnText = new TextObject("{=3CpNUnVl}Cancel").ToString();
+        string deleteTemplateInquiryTitle = new TextObject("{=delete_template_inquiry_title}Delete current template").ToString();
+        string deleteTemplateInquiryText = new TextObject("{=delete_template_inquiry_text}Are you sure you want to delete the current template?").ToString();
+        string deleteBtnText = new TextObject("{=deletekey}Delete").ToString();
+        string cancelBtnText = new TextObject("{=3CpNUnVl}Cancel").ToString();
         
         var inquiry = new InquiryData(
-            titleText: DeleteTemplateInquiryTitle,
-            text: DeleteTemplateInquiryText,
+            titleText: deleteTemplateInquiryTitle,
+            text: deleteTemplateInquiryText,
             isAffirmativeOptionShown: true,
             isNegativeOptionShown: true,
-            affirmativeText: DeleteBtnText,
-            negativeText: CancelBtnText,
+            affirmativeText: deleteBtnText,
+            negativeText: cancelBtnText,
             affirmativeAction: OnDeleteCurrentTemplate,
             negativeAction: InformationManager.HideInquiry
         );
@@ -110,12 +110,12 @@ public class TemplateListVM : ViewModel
 
     private void ExecuteRenameCurrentTemplate()
     {
-        string NewTemplateInquiryTitle = new TextObject("{=new_template_inquiry_title}Enter the template name").ToString();
-        string NewTemplateInquiryText = new TextObject("{=new_template_inquiry_text}New template name :").ToString();
+        string newTemplateInquiryTitle = new TextObject("{=new_template_inquiry_title}Enter the template name").ToString();
+        string newTemplateInquiryText = new TextObject("{=new_template_inquiry_text}New template name :").ToString();
             
         var textInquiry = new TextInquiryData(
-            titleText: NewTemplateInquiryTitle,
-            text: NewTemplateInquiryText,
+            titleText: newTemplateInquiryTitle,
+            text: newTemplateInquiryText,
             isAffirmativeOptionShown: true,
             isNegativeOptionShown: true,
             affirmativeText: GameTexts.FindText("str_done", null).ToString(),

@@ -1,12 +1,12 @@
-﻿using AutoAssignCharacterSheetWithTemplate.State;
-using Bannerlord.UIExtenderEx.Attributes;
+﻿using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.ViewModels;
+using HeroPathAutoBuildAssignment.State;
 using TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
-namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
+namespace HeroPathAutoBuildAssignment.ViewModels;
 
 [ViewModelMixin("RefreshValues")]
 internal class CharacterDeveloperVmMixin : BaseViewModelMixin<CharacterDeveloperVM>

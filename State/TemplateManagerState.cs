@@ -1,8 +1,8 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Models;
+﻿using HeroPathAutoBuildAssignment.Models;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
-namespace AutoAssignCharacterSheetWithTemplate.State;
+namespace HeroPathAutoBuildAssignment.State;
 
 public class TemplateManagerState : GameState
 {

@@ -1,4 +1,4 @@
-﻿namespace AutoAssignCharacterSheetWithTemplate.Models;
+﻿namespace HeroPathAutoBuildAssignment.Models;
 
 public class TemplateManagerCharacterPerk
 {

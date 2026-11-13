@@ -1,10 +1,10 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Data;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+﻿using HeroPathAutoBuildAssignment.Data;
+using HeroPathAutoBuildAssignment.Utils;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
 
-namespace AutoAssignCharacterSheetWithTemplate.Behaviors;
+namespace HeroPathAutoBuildAssignment.Behaviors;
 
 public class AutoAssignBehavior : CampaignBehaviorBase
 {
