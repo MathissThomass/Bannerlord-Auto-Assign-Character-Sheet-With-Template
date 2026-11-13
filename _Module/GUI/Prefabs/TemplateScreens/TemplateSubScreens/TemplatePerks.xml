@@ -130,7 +130,6 @@
                                                       PerkVisualWidget="PerkVisualWidgetParent\PerkVisualWidget"
                                                       NotEarnedPerkBrush="CharacterDeveloper.NotEarnedPerkBrush"
                                                       EarnedNotSelectedPerkBrush="CharacterDeveloper.EarnedNotSelectedPerkBrush"
-                                                      InSelectionPerkBrush="CharacterDeveloper.InSelectionPerkBrush"
                                                       EarnedActivePerkBrush="CharacterDeveloper.EarnedActivePerkBrush"
                                                       EarnedNotActivePerkBrush="CharacterDeveloper.EarnedNotActivePerkBrush"
                                                       EarnedPreviousPerkNotSelectedPerkBrush="CharacterDeveloper.EarnedNotSelectedFollowingPerk.Brush"
