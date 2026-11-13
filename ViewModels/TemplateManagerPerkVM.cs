@@ -15,7 +15,6 @@ public class TemplateManagerPerkVM : ViewModel
         None = -1,
         NotEarned,
         EarnedButNotSelected,
-        InSelection,
         EarnedAndActive,
         EarnedAndNotActive,
         EarnedPreviousPerkNotSelected

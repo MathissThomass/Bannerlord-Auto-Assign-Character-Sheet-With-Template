@@ -92,7 +92,8 @@ public class CharacterUtils
         return bestWeight <= 0 ? null : bestSkill;
     }
 
-    public static CharacterAttribute? PickAttributByWeight(Dictionary<SkillObject, double> weights)
+    public static CharacterAttribute? PickAttributByWeight(Dictionary<SkillObject, double> weights,
+        HashSet<CharacterAttribute>? excluded = null)
     {
         var sumByAttribute = new Dictionary<CharacterAttribute, double>();
 
@@ -109,6 +110,9 @@ public class CharacterUtils
 
             foreach (var attr in attributes)
             {
+                if (excluded != null && excluded.Contains(attr))
+                    continue;
+
                 if (sumByAttribute.ContainsKey(attr))
                     sumByAttribute[attr] += distributedWeight;
                 else

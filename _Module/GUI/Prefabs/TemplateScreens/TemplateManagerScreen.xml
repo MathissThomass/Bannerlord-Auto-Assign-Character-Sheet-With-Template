@@ -19,7 +19,7 @@
                     <Children>
                         <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren"
                                         VerticalAlignment="Center" Brush="Recruitment.Popup.Title.Text"
-                                        PositionYOffset="-25" Text="Template" Brush.FontSize="40"/>
+                                        PositionYOffset="-25" Text="@TitleTemplateText" Brush.FontSize="40"/>
                     </Children>
                 </Widget>
 

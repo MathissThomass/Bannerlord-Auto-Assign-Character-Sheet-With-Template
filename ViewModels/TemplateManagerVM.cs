@@ -4,6 +4,7 @@ using AutoAssignCharacterSheetWithTemplate.State;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
 
@@ -24,10 +25,13 @@ public class TemplateManagerVM : ViewModel
         templateManagerState.EditTemplate.CreateNewTemplate();
         _templateManagerCharacterList = new List<TemplateManagerCharacter>();
         _templateManagerCharacterList = TemplateSaveManager.LoadSavedTemplatesList();
+        int selectedIndex = 0;
         if (_templateManagerCharacterList.Count > 0)
         {
-            _currentTemplate =
-                _templateManagerCharacterList[0]; //TODO if hero from characterdev have a template select this one
+            selectedIndex =
+                TemplateHeroUtils.FindTemplateIndexForHero(_templateManagerCharacterList,
+                    templateManagerState.SelectedHero);
+            _currentTemplate = _templateManagerCharacterList[selectedIndex];
         }
         else
         {
@@ -47,13 +51,39 @@ public class TemplateManagerVM : ViewModel
             SkillGridListVm.Add(new TemplateManagerSkillGridVM(templateManagerCharacter, OnSaveTemplate));
         }
 
-        _currentSkillGridVM = SkillGridListVm[0]; //TODO a changer
+        _currentTemplateIndex = selectedIndex;
+        _currentSkillGridVM = SkillGridListVm[selectedIndex];
         _templateListVM = new TemplateListVM(_templateManagerCharacterList, OnTemplateCharacterSelectedChange,
-            OnCreateNewTemplate);
+            OnCreateNewTemplate, OnDeleteTemplate, selectedIndex);
 
-        _cancelLbl = "Annuler";
-        _doneLbl = "Valider";
+        _cancelLbl = new TextObject("{=3CpNUnVl}Cancel").ToString();
+        _doneLbl = new TextObject("{=WiNRdfsm}Done").ToString();
+        HeroesAssignedAtOpen = CollectAssignedHeroIds(_templateManagerCharacterList);
         RefreshValues();
+    }
+
+    public HashSet<string> HeroesAssignedAtOpen { get; }
+
+    public static HashSet<string> CollectAssignedHeroIds(List<TemplateManagerCharacter> templates)
+    {
+        var heroIds = new HashSet<string>();
+        foreach (var template in templates)
+        {
+            if (template?.HeroList == null)
+            {
+                continue;
+            }
+
+            foreach (var hero in template.HeroList)
+            {
+                if (hero != null && !string.IsNullOrEmpty(hero.StringId))
+                {
+                    heroIds.Add(hero.StringId);
+                }
+            }
+        }
+
+        return heroIds;
     }
 
     public void ExecuteCancel()
@@ -74,9 +104,12 @@ public class TemplateManagerVM : ViewModel
 
         if (unSavedTemplate)
         {
+            string UnsavedInquiryTitle = new TextObject("{=unsaved_inquiry_title}There is some unsaved template").ToString();
+            string UnsavedInquiryText = new TextObject("{=unsaved_inquiry_text}Are you sure you want to continue?").ToString();
+            
             var inquiry = new InquiryData(
-                titleText: "There is some unsaved template",
-                text: "Are you sure you want to continue?",
+                titleText: UnsavedInquiryTitle,
+                text: UnsavedInquiryText,
                 isAffirmativeOptionShown: true,
                 isNegativeOptionShown: true,
                 affirmativeText: "Continue",
@@ -96,8 +129,13 @@ public class TemplateManagerVM : ViewModel
     {
         foreach (var skillGridVm in SkillGridListVm)
         {
-            skillGridVm.ExecuteSaveTemplate();
+            bool stillInList = _templateManagerCharacterList.Contains(skillGridVm.TemplateCharacter);
+            if (stillInList)
+            {
+                skillGridVm.SaveUsingCurrentName();
+            }
         }
+
         Close();
     }
 
@@ -167,12 +205,41 @@ public class TemplateManagerVM : ViewModel
         OnPropertyChanged("TemplateSkillGridVM");
     }
 
+    private void OnDeleteTemplate(TemplateManagerCharacter deletedTemplate)
+    {
+        for (int i = 0; i < SkillGridListVm.Count; i++)
+        {
+            if (ReferenceEquals(SkillGridListVm[i].TemplateCharacter, deletedTemplate))
+            {
+                SkillGridListVm.RemoveAt(i);
+                break;
+            }
+        }
+
+        int lastIndex = _templateManagerCharacterList.Count - 1;
+        if (lastIndex < 0 || lastIndex >= SkillGridListVm.Count)
+        {
+            return;
+        }
+
+        _currentTemplate = _templateManagerCharacterList[lastIndex];
+        _currentSkillGridVM = SkillGridListVm[lastIndex];
+        _currentTemplateIndex = lastIndex;
+        OnPropertyChanged("TemplateSkillGridVM");
+    }
+
     private void OnSaveTemplate(TemplateManagerCharacter templateCharacter)
     {
         templateCharacter.SetIsFromNewCreatedTemplate(false);
+        int index = _templateManagerCharacterList.FindIndex(template => ReferenceEquals(template, templateCharacter));
+        if (index < 0)
+        {
+            return;
+        }
+
         _currentTemplate = templateCharacter;
-        _templateListVM._templateManagerCharacterList[_currentTemplateIndex] = templateCharacter;
-        _templateListVM.RefreshTemplateList(_currentTemplateIndex);
+        _currentTemplateIndex = index;
+        _templateListVM.RefreshTemplateList(index);
     }
 
     private void RefreshValues()
@@ -230,4 +297,7 @@ public class TemplateManagerVM : ViewModel
     {
         get { return _templateListVM; }
     }
+
+    [DataSourceProperty]
+    public string TitleTemplateText { get; set; } = new TextObject("{=templates_title}Templates").ToString();
 }

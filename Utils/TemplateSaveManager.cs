@@ -91,11 +91,11 @@ public class TemplateSaveManager
         try
         {
             var folder = GetSavesFolder();
-            var path = Path.Combine(folder, fileName + ".json");
+            var path = Path.Combine(folder, SanitizeFileName(fileName) + ".json");
 
             if (!File.Exists(path))
             {
-                TM_Log.Error($"File {path} doesn't exist");
+                return;
             }
 
             File.Delete(path);

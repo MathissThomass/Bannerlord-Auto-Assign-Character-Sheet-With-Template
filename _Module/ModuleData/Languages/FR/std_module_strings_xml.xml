@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="French"/>
+    </tags>
+    <strings>
+        <string id="templates_title" text="Modèles" />
+        <string id="important_skill_text" text="Compétence prioritaire" />
+        <string id="clear_all_perks_text" text="Réinitialiser tous les atouts" />
+        <string id="clear_all_skill_perk_text" text="Réinitialiser les atouts de la compétence" />
+        <string id="template_list_title" text="Liste des modèles" />
+        <string id="delete_current_text" text="Supprimer modèle" />
+        <string id="create_new_text" text="Nouveau modèle" />
+        <string id="duplicate_current_template_text" text="Dupliquer le modèle" />
+        <string id="rename_current_template_text" text="Renommer le modèle" />
+        <string id="assign_to_hero_text" text="Attribuer à un héros" />
+        <string id="new_created_template_text" text="nouveau modèle" />
+        <string id="new_template_inquiry_title" text="Nom du nouveau modèle" />
+        <string id="new_template_inquiry_text" text="Nom du nouveau modèle :" />
+        <string id="delete_template_inquiry_title" text="Supprimer le modèle" />
+        <string id="delete_template_inquiry_text" text="Êtes-vous sûr de vouloir supprimer ce modèle?" />
+        <string id="unsaved_inquiry_title" text="Il y a des modifications non enregistrées" />
+        <string id="unsaved_inquiry_text" text="Êtes-vous sûr de vouloir continuer?" />
+    </strings>
+</base>

@@ -1,4 +1,6 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Data;
+﻿using System.Collections.Generic;
+using AutoAssignCharacterSheetWithTemplate.Behaviors;
+using AutoAssignCharacterSheetWithTemplate.Data;
 using AutoAssignCharacterSheetWithTemplate.State;
 using AutoAssignCharacterSheetWithTemplate.Utils;
 using AutoAssignCharacterSheetWithTemplate.ViewModels;
@@ -22,18 +24,11 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
     private SpriteCategory _navalCategory;
     private SpriteCategory _townManagementCategory;
     public TemplateStore TemplateStore { get; set; }
-
-    /*protected override void OnInitialize()
-    {
-        base.OnInitialize();
-        LoadingWindow.EnableGlobalLoadingWindow();
-    }*/
+    
 
     public TemplateManagerScreen(TemplateManagerState state)
     {
-        /*
-        LoadingWindow.EnableGlobalLoadingWindow();
-        */
+
         _templateManagerState = state;
     }
 
@@ -52,35 +47,6 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
             _dataSource.ExecuteDone();
         }*/
     }
-
-    /*
-
-    public void OnExit()
-    {
-        Game.Current.GameStateManager.PopState(0);
-    }
-
-    protected override void OnDeactivate()
-    {
-        base.OnDeactivate();
-        if (_layer != null)
-        {
-            _layer.IsFocusLayer = false;
-            ScreenManager.TryLoseFocus(_layer);
-        }
-    }
-    
-    protected override void OnFinalize()
-    {
-        base.OnFinalize();
-        if (LoadingWindow.IsLoadingWindowActive)
-        {
-            LoadingWindow.DisableGlobalLoadingWindow();
-        }
-
-        _dataSource = null;
-        _layer = null;
-    }*/
 
     void IGameStateListener.OnActivate()
     {
@@ -106,10 +72,37 @@ public class TemplateManagerScreen : ScreenBase, IGameStateListener
 
     void IGameStateListener.OnDeactivate()
     {
+        HashSet<string> heroesAssignedAtOpen = _dataSource?.HeroesAssignedAtOpen;
         _layer.InputRestrictions.ResetInputRestrictions();
         RemoveLayer(_layer);
         _dataSource = null;
         TemplateStore.Instance.LoadFromDisk();
+        CatchUpHeroesSavedDuringSession(heroesAssignedAtOpen);
+    }
+
+    private static void CatchUpHeroesSavedDuringSession(HashSet<string> heroesAssignedAtOpen)
+    {
+        var alreadyAssigned = heroesAssignedAtOpen ?? new HashSet<string>();
+        var processedHeroIds = new HashSet<string>();
+        foreach (var template in TemplateStore.Instance.TemplateList)
+        {
+            if (template?.HeroList == null)
+            {
+                continue;
+            }
+
+            foreach (var hero in template.HeroList)
+            {
+                if (hero == null || string.IsNullOrEmpty(hero.StringId) ||
+                    !processedHeroIds.Add(hero.StringId) ||
+                    alreadyAssigned.Contains(hero.StringId))
+                {
+                    continue;
+                }
+
+                AutoAssign.CatchUpAssignedHero(hero, template);
+            }
+        }
     }
 
     void IGameStateListener.OnInitialize()

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="English"/>
+    </tags>
+    <strings>
+        <string id="templates_title" text="Templates" />
+        <string id="is_important_skill_text" text="Priority skill" />
+        <string id="clear_all_perks_text" text="Clear all perks" />
+        <string id="clear_all_skill_perk_text" text="Clear all skill perks" />
+        <string id="template_list_title" text="Template list" />
+        <string id="delete_current_text" text="Delete current" />
+        <string id="create_new_text" text="Create New" />
+        <string id="duplicate_current_template_text" text="Duplicate current template" />
+        <string id="rename_current_template_text" text="Rename current template" />
+        <string id="assign_to_hero_text" text="Assign to hero" />
+        <string id="new_created_template_text" text="New created template" />
+        <string id="new_template_inquiry_title" text="Enter the template name" />
+        <string id="new_template_inquiry_text" text="New template name :" />
+        <string id="delete_template_inquiry_title" text="Delete current template" />
+        <string id="delete_template_inquiry_text" text="Are you sure you want to delete the current template?" />
+        <string id="unsaved_inquiry_title" text="There is some unsaved template" />
+        <string id="unsaved_inquiry_text" text="Are you sure you want to continue?" />
+    </strings>
+</base>
