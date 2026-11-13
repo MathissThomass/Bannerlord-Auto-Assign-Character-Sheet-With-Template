@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using AutoAssignCharacterSheetWithTemplate.Models;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+using HeroPathAutoBuildAssignment.Models;
+using HeroPathAutoBuildAssignment.Utils;
 
-namespace AutoAssignCharacterSheetWithTemplate.Data;
+namespace HeroPathAutoBuildAssignment.Data;
 
 public sealed class TemplateStore
 {

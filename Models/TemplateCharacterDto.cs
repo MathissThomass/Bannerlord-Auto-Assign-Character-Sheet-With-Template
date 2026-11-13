@@ -2,7 +2,7 @@
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 
-namespace AutoAssignCharacterSheetWithTemplate.Models;
+namespace HeroPathAutoBuildAssignment.Models;
 
 public class TemplateCharacterDto
 {

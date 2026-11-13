@@ -1,6 +1,6 @@
 ﻿using TaleWorlds.CampaignSystem;
 
-namespace AutoAssignCharacterSheetWithTemplate.Utils;
+namespace HeroPathAutoBuildAssignment.Utils;
 
 public class HeroSelectionItem
 {

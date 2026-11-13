@@ -1,9 +1,9 @@
 ﻿using System;
-using AutoAssignCharacterSheetWithTemplate.Models;
-using AutoAssignCharacterSheetWithTemplate.Utils;
+using HeroPathAutoBuildAssignment.Models;
+using HeroPathAutoBuildAssignment.Utils;
 using TaleWorlds.Library;
 
-namespace AutoAssignCharacterSheetWithTemplate.ViewModels;
+namespace HeroPathAutoBuildAssignment.ViewModels;
 
 public class TemplateListItemVM : ViewModel
 {

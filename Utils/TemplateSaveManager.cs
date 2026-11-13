@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using AutoAssignCharacterSheetWithTemplate.Data;
-using AutoAssignCharacterSheetWithTemplate.Models;
+using HeroPathAutoBuildAssignment.Data;
+using HeroPathAutoBuildAssignment.Models;
 using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem;
 using Path = System.IO.Path;
 
-namespace AutoAssignCharacterSheetWithTemplate.Utils;
+namespace HeroPathAutoBuildAssignment.Utils;
 
 public class TemplateSaveManager
 {

@@ -1,12 +1,12 @@
-﻿using AutoAssignCharacterSheetWithTemplate.Behaviors;
-using Bannerlord.UIExtenderEx;
+﻿using Bannerlord.UIExtenderEx;
 using HarmonyLib;
+using HeroPathAutoBuildAssignment.Behaviors;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 
-namespace AutoAssignCharacterSheetWithTemplate
+namespace HeroPathAutoBuildAssignment
 {
     public class Main : MBSubModuleBase
     {
@@ -16,10 +16,10 @@ namespace AutoAssignCharacterSheetWithTemplate
         {
             base.OnSubModuleLoad();
             
-            _harmony = new Harmony("AutoAssignCharacterSheetWithTemplate");
+            _harmony = new Harmony("HeroPathAutoBuildAssignment");
             _harmony.PatchAll();
             
-            _uiExtender = new UIExtender("AutoAssignCharacterSheetWithTemplate");
+            _uiExtender = new UIExtender("HeroPathAutoBuildAssignment");
             _uiExtender.Register(typeof(Main).Assembly);
             _uiExtender.Enable();
         }
@@ -28,7 +28,7 @@ namespace AutoAssignCharacterSheetWithTemplate
         {
             _uiExtender?.Disable();
             
-            _harmony?.UnpatchAll("AutoAssignCharacterSheetWithTemplate");
+            _harmony?.UnpatchAll("HeroPathAutoBuildAssignment");
             _harmony = null;
             
             base.OnSubModuleUnloaded();

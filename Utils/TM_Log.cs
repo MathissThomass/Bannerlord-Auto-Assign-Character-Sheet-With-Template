@@ -3,7 +3,7 @@ using System.IO;
 using TaleWorlds.Library;
 using Debug = System.Diagnostics.Debug;
 
-namespace AutoAssignCharacterSheetWithTemplate.Utils;
+namespace HeroPathAutoBuildAssignment.Utils;
 
 public class TM_Log
 {
